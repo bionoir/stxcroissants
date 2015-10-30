@@ -1,0 +1,12 @@
+{# src/STX/CroissantsBundle/Resources/views/CroissantsAdmin/admin.html.twig #}
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	This is ADMIN
+{% endblock %}
+
+
+{% block stxcroissants_body %}
+	<h1>Import Data from table USERS (old Croissant website)</h1>
+	<a href="{{ path('stx_croissants_admin_importusers') }}" class="btn btn-default btn-sm"><i class="fa fa-database"></i>Start import!</a>
+{% endblock %}

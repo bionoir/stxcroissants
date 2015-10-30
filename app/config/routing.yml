@@ -1,0 +1,10 @@
+stx_croissants:
+    resource: "@STXCroissantsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user_bundle:
+   resource: "@STXUserBundle/Resources/config/routing.yml"
+   prefix:    /
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

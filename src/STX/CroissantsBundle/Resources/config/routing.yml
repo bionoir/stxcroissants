@@ -1,0 +1,67 @@
+stx_croissants_home:
+    pattern:     /{date}
+    defaults: { _controller: STXCroissantsBundle:Croissants:home, date : null }
+    requirements:
+        date: \d+
+    options:
+        expose: true
+    
+stx_croissants_subscribe:
+    pattern: /subscribeCroissant
+    defaults: { _controller: STXCroissantsBundle:Croissants:subscribeCroissant }
+    requirements:
+        _method : POST
+        
+stx_croissants_unsubscribe:
+    pattern: /unsubscribeCroissant
+    defaults: { _controller: STXCroissantsBundle:Croissants:unsubscribeCroissant }
+    requirements:
+        _method : POST
+        
+stx_croissants_confirmuser:
+    pattern: /confirmUser
+    defaults: { _controller: STXCroissantsBundle:Croissants:confirmUser }
+    requirements:
+        _method : POST
+        
+stx_croissants_updateremark:
+    pattern: /updateRemark
+    defaults: { _controller: STXCroissantsBundle:Croissants:updateRemark }
+    requirements:
+        _method : POST
+
+stx_croissants_subscriberlist:
+    pattern: /subscriberlist/{date}
+    defaults: { _controller: STXCroissantsBundle:Croissants:subscriberlist, date : null }
+    requirements:
+        date: \d+
+    options:
+        expose: true
+
+stx_croissants_list:
+    pattern:     /list
+    defaults: { _controller: STXCroissantsBundle:Croissants:list }
+    
+stx_croissants_prefs:
+    pattern:     /prefs
+    defaults: { _controller: STXCroissantsBundle:Croissants:prefs }
+    
+stx_croissants_stats:
+    pattern:     /stats
+    defaults: { _controller: STXCroissantsBundle:Croissants:stats }
+
+stx_croissants_mail:
+    pattern:     /admin/mail
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:mail }
+    
+stx_croissants_alert:
+    pattern:     /admin/alert
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:alert }
+    
+stx_croissants_admin:
+    pattern:     /admin/admin
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:admin }
+
+stx_croissants_admin_importusers:
+    pattern:     /admin/importusers
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:importusers }

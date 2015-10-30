@@ -1,0 +1,78 @@
+<form class="form-horizontal" action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.firstname) }}
+        </div>
+        <div class="col-lg-4">
+        	{{ form_widget(form.firstname, { 'attr' : {'class' : 'form-control'} }) }}
+            {{ form_errors(form.firstname) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.lastname) }}
+        </div>
+        <div class="col-lg-4">
+        	{{ form_widget(form.lastname, { 'attr' : {'class' : 'form-control'} }) }}
+            {{ form_errors(form.lastname) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.days) }}
+        </div>
+        <div class="col-lg-4">
+        	{{ form_widget(form.days, { 'attr' : {'class' : 'form-control'} }) }}
+            {{ form_errors(form.days) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.alertemail) }}
+        </div>
+        <div class="col-lg-1">
+        	{{ form_widget(form.alertemail, { 'attr' : {'class' : 'checkbox'} }) }}
+            {{ form_errors(form.alertemail) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.alertdays) }}
+        </div>
+        <div class="col-lg-4">
+        	{{ form_widget(form.alertdays, { 'attr' : {'class' : 'form-control'} }) }}
+            {{ form_errors(form.alertdays) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.emailvisible) }}
+        </div>
+        <div class="col-lg-1">
+        	{{ form_widget(form.emailvisible, { 'attr' : {'class' : 'checkbox'} }) }}
+            {{ form_errors(form.emailvisible) }}
+        </div>    
+	</div>
+	
+	<div class="form-group">
+		<div class="col-lg-3 control-label">
+        	{{ form_label(form.current_password) }}
+        </div>
+        <div class="col-lg-4">
+        	{{ form_widget(form.current_password, { 'attr' : {'class' : 'form-control'} }) }}
+            {{ form_errors(form.current_password) }}
+        </div>    
+	</div>
+	
+	{{ form_rest(form) }}
+    <div class="col-lg-3 col-lg-offset-3">
+    	<button class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" >Valider</button>
+    	<a href="{{ path('fos_user_profile_show', {'user': user}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+    </div>
+    
+</form>

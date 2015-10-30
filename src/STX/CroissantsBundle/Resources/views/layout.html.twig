@@ -1,0 +1,29 @@
+{# src/STX/CroissantsBundle/Resources/views/layout.html.twig #}
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <!-- Contenu en rapport avec la navigation et actions de l'utilisateur -->
+    <div id="content" class="col-xs-9">
+    	<div class="panel panel-default">
+			<div class="panel-heading">
+				{% block stxcroissants_head %}
+				{% endblock %}
+			</div>
+		
+			<div class="panel-body">
+				<!-- Messages d'information ou erreur -->
+				{% for typeMessage, flashMessages in app.session.flashbag.all() %}
+					{% for flashMessage in flashMessages %}
+						<div class="alert alert-{{ typeMessage }}">
+							{{ flashMessage|trans }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+			
+				<!-- Contenu proprement dit -->
+				{% block stxcroissants_body %}
+				{% endblock %}
+			</div>
+	 	</div>
+	</div>        
+{% endblock %}

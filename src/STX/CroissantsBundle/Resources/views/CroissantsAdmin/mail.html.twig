@@ -1,0 +1,19 @@
+{# src/STX/CroissantsBundle/Resources/views/CroissantsAdmin/mail.html.twig #}
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	This is MAIL
+{% endblock %}
+
+
+{% block stxcroissants_body %}
+	<h4>Test email</h4>
+	
+	<div class="well">
+		<form class="form-horizontal"  method="post" {{ form_enctype(form) }}  >
+			{{ form_start(form) }}
+			{{ form_rest(form) }}
+			{{ form_end(form) }}
+		</form>
+	</div>
+{% endblock %}

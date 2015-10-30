@@ -1,0 +1,274 @@
+{# src/STX/CroissantsBundle/Resources/views/Croissants/home.html.twig #}
+{% extends "STXCroissantsBundle::layout_calendar.html.twig" %}
+
+{% block stxcroissants_head %}
+	This is Home of {{ userFirstname }} <div id="croiss_loading" class="pull-right" style="display:none"><i class="fa fa-cog fa-spin"></i></div>
+{% endblock %}
+
+
+{% block stxcroissants_body %}
+	
+	<div id="pleaseWaitDialog" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+        		<div class="modal-body">
+        			<div class="container-fluid">
+          				<div class="row">
+          					<div class="col-md-4 col-md-offset-4">
+        						<i class="fa fa-cog fa-spin fa-5x"></i>
+        					</div>
+            			</div>
+            		</div>	
+            	</div>
+            </div>
+        </div>
+    </div>
+	
+	<div id="subscriberlist">
+		
+		{{ render(controller('STXCroissantsBundle:Croissants:subscriberlist', {'date' : date } )) }}
+		
+		{# {% include "STXCroissantsBundle:Croissants:subscriberlist.html.twig" %} #}
+	</div>
+	
+	
+	{#
+	Fridays : {{ userDaysDiplay }}
+
+	</br>
+	
+	<table class="table table-striped">
+		<tr>
+			<th>Date</th>
+			<th>Principal</th>
+			<th>Sauveteur</th>
+			<th>Apporté par</th>
+			<th>Remarque</th>
+		</tr>
+		
+		
+		{% for subscriber in subscribers %}
+		<tr>
+			<td>{{ subscriber['dateSub']|date('d.m.Y') }}</td>
+			{# Main subscriber 
+			<td>
+				<div id={{ 'displayMainUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
+				{% if (subscriber['dateSub']|date('U')) < ( forCompare|date('U')) %}
+					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
+						<span> </span>
+					{% else %}
+						<span>{{ subscriber['userSub'].user.username }}</span>
+					{% endif %}
+				{% else %}
+					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
+						{% if subscriber['userSub'] is null %}
+							<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
+						{% elseif subscriber['userSub'].backupuser is null %}
+							<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
+						{% elseif subscriber['userSub'].user.username == username %}
+							<i class="glyphicon glyphicon-arrow-right"></i>
+						{% endif %}
+					{% else %}
+						<div id="userSpace">
+							<span>{{ subscriber['userSub'].user.username }}</span>
+							{% if subscriber['userSub'].user.username == username %}
+								<button id={{ 'unsubscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-remove"></i></button>
+							{% endif %}
+						</div>
+					{% endif %}
+				{% endif %}
+				</div>
+			</td>
+			{# Backup subscriber
+			<td>
+				<div id={{ 'displayBackupUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
+				{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].backupuser is null)) %}
+					{% if subscriber['userSub'] is null %}
+						<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
+					{% elseif subscriber['userSub'].user is null %}
+						<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
+					{% elseif subscriber['userSub'].user.username == username %}
+						<i class="glyphicon glyphicon-arrow-left"></i>
+					{% endif %}
+				{% else %}
+					<div id="userSpace">
+						<span>{{ subscriber['userSub'].backupuser.username }}</span>
+						{% if subscriber['userSub'].backupuser.username == username %}
+							<button id={{ 'unsubscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-remove"></i></button>
+						{% endif %}
+					</div>
+				{% endif %}
+				</div>
+			</td>
+			{# Who really brought croissants
+			<td>
+				{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].confirmationuser is null)) %}
+					{% if (subscriber['dateSub']|date('U')) < ( forCompare|date('U')) %}
+						<span><i class="fa fa-frown-o"></i></span>
+					{% else %}
+						<span> </span>
+					{% endif %}
+				{% else %}
+					<span>{{ subscriber['userSub'].confirmationuser.username }}</span>
+				{% endif %}
+			</td>
+			{# Remarks
+			<td>
+				{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].remark is null)) %}
+					<span>-</span>
+				{% else %}
+					<span>{{ subscriber['userSub'].remark }}</span>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	#}
+{% endblock %}
+
+
+
+{% block javascriptend %}
+
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		function subscribeFunction(element,stringDate,username,role){
+			
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_subscribe') }}",
+				data	: {'date' : stringDate, 'username' : username, 'role' : role},
+				success	: function(data){
+							if (data.success) {
+								if (role == 1) {
+									// Subscribing as MAIN
+									$mainSelect = $('#subscribe_' + stringDate).parent();
+									$mainSelect.empty();
+									$mainSelect.append('<span>'+data.user+'</span><button id="unsubscribe_'+stringDate+'" type="button" class="btn" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
+
+									$backupSelect = $('#subscribeBackup_' + stringDate).parent();
+									$backupSelect.empty();
+									$backupSelect.append('<i class="glyphicon glyphicon-arrow-left"></i>');
+								} else {
+									// Subscribing as BACKUP
+									$backupSelect = $('#subscribeBackup_' + stringDate).parent();
+									$backupSelect.empty();
+									$backupSelect.append('<span>'+data.user+'</span><button id="unsubscribeBackup_'+stringDate+'" type="button" class="btn" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
+
+									$mainSelect = $('#subscribe_' + stringDate).parent();
+									$mainSelect.empty();
+									$mainSelect.append('<i class="glyphicon glyphicon-arrow-right"></i>');
+								}
+							} else {
+								alert('Something went wrong : ' + data.message);
+							}
+					},
+				error 	: function(data){
+							alert("Couldn't subscribe user : " + data.message);
+					}
+			});
+			
+		}
+
+		function unsubscribeFunction(element,stringDate,username,role){
+
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_unsubscribe') }}" ,
+				data	: {'date' : stringDate, 'username' : username, 'role' : role},
+				success	: function(data){
+							if (data.success) {
+								if ( role == 1 ) {
+									// Unsubscribing as MAIN
+									$mainSelect = $('#unsubscribe_' + stringDate).parent();
+									$mainSelect.empty();
+									$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
+
+									$isThereBackup = $('#displayBackupUserFor_' + stringDate + ' div#userSpace');
+									if ( $isThereBackup.length == 0 ){
+										$backupSelect = $('#displayBackupUserFor_' + stringDate);
+										$backupSelect.empty();
+										$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',0)"><i class="glyphicon glyphicon-pencil"></i></button>');
+									}
+									
+								} else {
+									// Unsubscribing as BACKUP
+									$backupSelect = $('unsubscribeBackup_' + stringDate).parent();
+									$backupSelect.empty();
+									$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
+
+									$isThereMain = $('#displayMainUserFor_' + stringDate + ' div#userSpace');
+									if ( $isThereMain.length == 0) {
+										$mainSelect = $('#displayMainUserFor_' + stringDate);
+										$mainSelect.empty();
+										$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',1)"><i class="glyphicon glyphicon-pencil"></i></button>');
+									}
+								}
+							} else {
+								alert('Something went wrong : ' + data.message);
+							}
+					},
+				error	: function(data){
+							alert("Couldn't unsubscribe user : " + data.message);
+					}
+			});			
+		}
+
+
+		function updateConfirmationUser(element,stringDate){
+			var username = element.value;
+
+			if (username) {
+
+				$.ajax({
+					type	: "POST",
+					url		: "{{ path('stx_croissants_confirmuser') }}",
+					data	: {'date': stringDate, 'username': username},
+					success	: function(data) {
+									if (data.success) {
+										$mainSelect = $('#selectConfirmUser_' + stringDate);
+										$mainSelect.val(username);
+									} else {
+										alert('Something went wrong');
+									}
+								},
+					error	: function(data) {
+									alert("Couldn't confirm user");
+								}
+					});
+				
+			} else {
+				alert('PAS DE VALEUR VIDE');
+			}
+			
+		}
+
+		function updateRemark(stringDate){
+
+			$textarea = $('#remark_' + stringDate);
+						
+			var remarkString = $textarea.val();
+
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_updateremark') }}",
+				data	: {'date': stringDate, 'remark': remarkString},
+				success	: function(data) {
+								if (data.success) {
+									$remarkSelect = $('#remark_' + stringDate);
+									$remarkSelect.val(remarkString);
+								} else {
+									alert('Something went wrong with remark');
+								}
+							},
+				error	: function(data) {
+								alert("Couldn't update remark");
+							}
+				});
+		}
+
+		
+	</script>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{# src/STX/UserBundle/Resources/views/User/registration.email.twig #}
+
+{% block subject %}Confirmation d'inscription{% endblock %}
+
+{% block body_text %}
+{# {% autoescape false %} #}
+Bonjour {{ user.username }} !
+
+Vous devez confirmer voter inscription en cliquant sur le lien suivant : {{ confirmationUrl }}
+
+Amicalement,
+Administrateur des Croissants
+{# {% endautoescape %} #} 
+{% endblock %}
+
+{# 
+{% block body_html %}
+    {% include "FDUserBundle:User:registration_email.html.twig" %}
+{% endblock %}
+#}

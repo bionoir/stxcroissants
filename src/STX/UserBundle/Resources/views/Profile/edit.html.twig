@@ -1,0 +1,11 @@
+{# src/STX/UserBundle/Resources/views/Profile/show.html.twig #}
+
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	This is Home of {{ user.firstname }} <div id="croiss_loading" class="pull-right" style="display:none"><i class="fa fa-cog fa-spin"></i></div>
+{% endblock %}
+
+{% block stxcroissants_body %}
+	{% include "STXUserBundle:Profile:edit_content.html.twig" %}
+{% endblock stxcroissants_body %}

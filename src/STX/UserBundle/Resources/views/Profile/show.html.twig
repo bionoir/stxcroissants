@@ -1,0 +1,11 @@
+{# src/STX/UserBundle/Resources/views/Profile/show.html.twig #}
+
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	This is Home of {{ user.firstname }} <a class="pull-right" href="{{ path('fos_user_profile_edit') }}"><i class="glyphicon glyphicon-edit"></i></a>
+{% endblock %}
+
+{% block stxcroissants_body %}
+	{% include "STXUserBundle:Profile:show_content.html.twig" %}
+{% endblock stxcroissants_body %}

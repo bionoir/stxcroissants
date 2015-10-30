@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Croissants Time!{% endblock %}</title>
+        {% block stylesheets %}
+        	<link rel="stylesheet" href="{{ asset('bundles/stxcroissants/css/bootstrap.min.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/stxcroissants/css/bootstrap-theme.min.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/stxcroissants/css/responsive-calendar.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/stxcroissants/css/font-awesome.min.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/stxcroissants/css/Croissants.css') }}" type="text/css" />
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" />
+        {% endblock %}
+        {% block javascriptstop %}
+            {# Ajoutez ces javascripts si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+            <script type="text/javascript" src="{{ asset('bundles/stxcroissants/js/jquery-1.11.3.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/stxcroissants/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+			<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/stxcroissants/js/responsive-calendar.js') }}"></script>
+            <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+            <script src="https://cdn.datatables.net/plug-ins/1.10.9/sorting/datetime-moment.js"></script>
+        {% endblock %}
+        {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" /> #}
+    </head>
+    <body>
+		<div class="container">
+        
+            <!-- Titre principal, inchangé le long de la navigation -->
+            <div class="page-header">
+                <h1>Croissants Time !</h1>
+                <p>
+                    La gestion pour les gourmands.
+                </p>
+
+            </div>
+            
+            
+            <div class="body-content">
+    
+        		<!-- DIV en grille pour le contenu -->
+        		<div class="row">
+					
+					{% block croissantsMenu %}
+            		<!-- Menu de gauche -->
+            		<div id="menu" class="col-xs-3">
+                		<div class="panel panel-default">
+                    		<div class="panel-heading">
+                        		<h4 class="panel-title">Navigation</h4>
+                    		</div>
+                    		<div class="panel-body">
+	                        	<ul class="nav nav-pills nav-stacked">
+		                            <li><a href="{{ path('stx_croissants_home') }}">Calendrier</a></li>
+		                            <li><a href="{{ path('stx_croissants_stats') }}">Statistiques</a></li>
+		                            {#
+		                            <li><a href="{{ path('stx_croissants_list') }}">Liste</a></li>
+		                            <li><a href="{{ path('stx_croissants_prefs') }}">Préférences</a></li>
+		                            #}
+		                            {% if is_granted('ROLE_ADMIN') %}
+		                            <li class="nav-divider"></li>
+		                            <li><a href="{{ path('stx_croissants_mail') }}">Mail</a></li>
+		                            <li><a href="{{ path('stx_croissants_alert') }}">Alerte</a></li>
+		                            <li><a href="{{ path('stx_croissants_admin') }}">Administration</a></li>
+		                            {% endif %}
+		                            {% if app.user %}
+		                            	<li class="nav-divider"></li>
+		                            	<li><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></li>
+		                    			<li><a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a></li>
+		                    		{% endif %}
+		                            <li class="divider"></li>
+		                        </ul>
+                     		</div>
+                		</div>
+            		</div>
+            		{% endblock %}
+            
+		            {% block body %}
+		            
+		            {% endblock %}
+            
+            	</div>
+        	</div>
+        	
+        	{% block footer_page %}
+        		<hr>
+
+        		<!-- Pied de page du contenu -->
+        		<footer>
+            		<p class="text-center"><small>STX productions © 2015 and beyond.</small></p>
+        		</footer>
+        		
+        	{% endblock %}
+        	
+        </div>
+        
+		            
+		{% block javascriptsend %}
+		    <script>
+		        $(document).ready(function() {
+		            if ( $('a[href="' + this.location.pathname + '"]').length ) {
+		                $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
+		            }
+		        });
+	        
+	        	// <i class="glyphicon glyphicon-play"></i>
+	    	</script>
+        {% endblock %}
+    </body>
+</html>

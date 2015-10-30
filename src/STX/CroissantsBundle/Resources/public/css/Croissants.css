@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+.expand {
+    height: 2em;
+    width: 50%;
+    padding: 3px;
+    resize: none;
+}
