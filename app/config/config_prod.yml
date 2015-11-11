@@ -16,6 +16,7 @@ imports:
 framework:
     assets:
         base_path: "/web"
+        base_urls: ['//croissants.hrp.secutix.net']
 
 monolog:
     handlers:
