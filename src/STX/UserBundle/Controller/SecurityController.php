@@ -10,10 +10,10 @@ class SecurityController extends BaseController {
     
     public function loginAction()
     {
-        // Si le visiteur est déjà identifié, on le redirige vers l'accueil
+        // Si le visiteur est dï¿½jï¿½ identifiï¿½, on le redirige vers l'accueil
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $uri = $this->container->get('router')->generate('stx_croissants_homepage');
+            $uri = $this->container->get('router')->generate('stx_croissants_home');
             return new RedirectResponse($uri);
         }
         
