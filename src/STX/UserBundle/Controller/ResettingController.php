@@ -37,8 +37,8 @@ class ResettingController extends BaseController {
 
         if ($process) {
             $this->setFlash('fos_user_success', 'resetting.flash.success');
-            $response = new RedirectResponse($this->getRedirectionUrl($user));
-            //$response = new RedirectResponse($this->container->get('router')->generate("fos_user_security_login"));
+            //$response = new RedirectResponse($this->getRedirectionUrl($user));
+            $response = new RedirectResponse($this->container->get('router')->generate("stx_croissants_home"));
             $this->authenticateUser($user, $response);
 
             return $response;

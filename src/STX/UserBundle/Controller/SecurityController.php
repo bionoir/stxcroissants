@@ -12,10 +12,10 @@ class SecurityController extends BaseController {
     {
         // Si le visiteur est d�j� identifi�, on le redirige vers l'accueil
         $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        /*if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $uri = $this->container->get('router')->generate('stx_croissants_home');
             return new RedirectResponse($uri);
-        }
+        }*/
         
         
         $request = $this->container->get('request');
