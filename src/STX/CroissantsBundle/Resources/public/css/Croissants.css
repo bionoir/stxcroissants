@@ -6,3 +6,12 @@
     padding: 3px;
     resize: none;
 }
+
+#chuckSlider {
+    opacity:1;
+    transition: opacity 1s; 
+}
+
+#chuckSlider.fadeOut {
+    opacity:0;
+}

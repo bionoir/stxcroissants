@@ -1,0 +1,65 @@
+
+<!--  <div id="cnfactslide"><p class="text-center"></p></div> -->
+
+<div id="chuckSlider">
+	<!-- <div id="chuckImage" class="col-lg-3">
+		<img alt="Chuck Image" src="{{ asset('bundles/stxcroissants/images/chuck1.png') }}">
+		
+	</div> -->
+	<!-- <p class="text-center"><img alt="Chuck Image" src="{{ asset('bundles/stxcroissants/images/chuck' ~ chuckNorrisImageNumber ~'.png') }}"/><span></span></p> -->
+	<p class="text-center"></p>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var factsArray = {{ chuckNorrisFacts|json_encode|raw }};
+
+		var counter = 0;
+		var curIndex = 0;
+		var imgDuration = 6000;
+		var imgNumber = 0;
+
+		function loop() {
+		    if (counter > factsArray.length-1 ) counter = 0;
+		    $('#cnfactslide p:first').html(factsArray[counter]);
+		    counter++;
+		    //console.log(counter);
+		    setTimeout(loop, 6000);
+		}
+		loop();
+
+
+		function slideShow() {
+		    document.getElementById('chuckSlider').className += "fadeOut";
+		    setTimeout(function() {
+		        		        
+		        //$('#chuckSlider p:first span').html(factsArray[curIndex]);
+
+		        imgNumber = Math.floor(Math.random()*3) + 1;
+		        		        
+				var assetString = "{{ asset(chuckNorrisImageURL) }}";
+				
+				var indexChar = 50;
+
+				var newURL = assetString.substr(0,indexChar) + imgNumber.toString() + assetString.substr(indexChar + 1);
+		        
+		        var str1 = "<img alt=\"Chuck Image\" src=\"";
+		        var str2 = "\" />";
+		        var str3 = "\" /><span>";
+		        var str4 = str3.concat(factsArray[curIndex]);
+		        var str5 = "</span>";
+		        var res = str1.concat(newURL.concat(str4.concat(str5.concat(str1.concat(newURL.concat(str2))))));
+		        var html = $.parseHTML(res);
+		        $('#chuckSlider p:first').empty();
+		        $('#chuckSlider p:first').append(html);
+		        
+		        document.getElementById('chuckSlider').className = "";
+		    },1000);
+		    curIndex++;
+		    if (curIndex == factsArray.length) { curIndex = 0; }
+		    setTimeout(slideShow, imgDuration);
+		}
+		slideShow();
+		
+	});
+</script>

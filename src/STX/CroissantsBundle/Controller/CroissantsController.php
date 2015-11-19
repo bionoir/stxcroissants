@@ -7,88 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use STX\UserBundle\Entity\User;
 use STX\CroissantsBundle\Entity\Friday_Subscriptions;
 use Symfony\Component\HttpFoundation\Response;
+use STX\CroissantsBundle\Tools\factsFromChuckNorris;
 
 class CroissantsController extends Controller
 {
-	
-	/*
+	/**
+	 * Display the home page (this page call the grid for subscribers)
+	 * 
+	 * @param unknown $date
+	 */
 	public function homeAction($date)
-	{
-		$em = $this->getDoctrine()->getManager();
-		 
-		$user = new User();
-		 
-		$user = $this->getUser();
-		
-		if (is_null($user)) {
-			$name = 'ERROR';
-			$username = 'ERROR_2';
-		} else {
-			$name = $user->getFirstname();
-			$username = $user->getUsername();
-		}
-		 
-		// trouver le nombre de vendredi à afficher 
-		 
-		$daysToDisplay = $user->getDays();
-		 
-		$today = new DateTime();
-		$forCompare = new DateTime();
-		 
-		if (!is_null($date)) {
-			$today=DateTime::createFromFormat("dmY", $date);
-		}
-		 
-		 
-		// If it's already friday, then don't need to get next friday
-		if ( date("w", $today->getTimestamp()) != 5 ) {
-			$today->modify('next friday');
-		}
-		 
-		$today->setTime(0, 0);
-		 
-		$nextFriday = new DateTime();
-		$nextFriday = clone $today;
-		 
-		$repositoryFS = $this->getDoctrine()->getManager()->getRepository('STXCroissantsBundle:Friday_Subscriptions');
-		$friday_subscriber = $repositoryFS->findOneBy(array('date' => $nextFriday));
-		 
-		$croissantsSubscribers = array();
-		array_push($croissantsSubscribers, array('dateSub' => $nextFriday,
-				'userSub' => $friday_subscriber));
-		 
-		 
-		 
-		$nextXFridays = array();
-		array_push($nextXFridays, $nextFriday);
-		 
-		for ($i = 1; $i < $daysToDisplay; $i++) {
-			$dayToAdd = new DateTime();
-			$subscriberToAdd = new Friday_Subscriptions();
-		
-			$today->modify('+7 days');
-			$dayToAdd = clone $today;
-				
-			$subscriberToAdd = $repositoryFS->findOneBy(array('date' => $dayToAdd));
-		
-			array_push($croissantsSubscribers, array('dateSub' => $dayToAdd,
-					'userSub' => $subscriberToAdd));
-			array_push($nextXFridays, $dayToAdd);
-		}
-		
-		return $this->render('STXCroissantsBundle:Croissants:home.html.twig', array('username' => $username,
-				'userDaysDiplay' => $daysToDisplay,
-				'fridays' => $nextXFridays,
-				'subscribers' => $croissantsSubscribers,
-				'forCompare' => $forCompare,
-				'calendarDate' => $date,
-				'userFirstname' => $name
-		));
-	}
-	*/
-	
-	
-    public function homeAction($date)
     {
     	$em = $this->getDoctrine()->getManager();
     	
@@ -102,11 +30,20 @@ class CroissantsController extends Controller
     		$name = $user->getFirstname();
     	}
     	
+    	$chuckyFactsObject = new factsFromChuckNorris();
+    	
     	return $this->render('STXCroissantsBundle:Croissants:home.html.twig', array('date' => $date, 'userFirstname' => $name, 'calendarDate' => $date) );
     }
     
     
-    
+    /**
+     * 
+     * This function refreshes the subscription grid page.
+     * Mostly called when clicking on a day on the Calendar widget
+     * 
+     * @param unknown $date
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function subscriberlistAction($date)
     {
     		 
@@ -183,24 +120,31 @@ class CroissantsController extends Controller
         ));
         
         return $template;
-        
-        /*
-        $template = $this->render('STXCroissantsBundle:Croissants:subscriberlist.html.twig', array('username' => $username,
-        		'userDaysDiplay' => $daysToDisplay,
-        		'fridays' => $nextXFridays,
-        		'subscribers' => $croissantsSubscribers,
-        		'forCompare' => $forCompare
-        ))->getContent();
-        
-        $json = json_encode($template);
-        $response = new Response($json, 200);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-        */
+    }
+    
+    /**
+     * Getting the Chuck Norris facts from the site and sending them to the view
+     */
+    public function renderChuckNorrisFactsAction() {
+    	
+    	$chuckyFactsObject = new factsFromChuckNorris();
+    	$chuckNorrisFactsList = $chuckyFactsObject->getFactsList();
+    	$chuckImageNumber = rand(1,3);
+    	$chuckImageURL = "bundles/stxcroissants/images/chuck" . $chuckImageNumber . ".png";
+    	
+    	$template = $this->render('STXCroissantsBundle:Croissants:chucknorrisfacts.html.twig', array('chuckNorrisFacts' => $chuckNorrisFactsList,
+    																								'chuckNorrisImageNumber' => $chuckImageNumber,
+    																								'chuckNorrisImageURL' => $chuckImageURL
+    	) );
+    	
+    	return $template;
+    	
     }
     
     
-    
+    /**
+     * Ajax function for subscribing on a date
+     */
     public function subscribeCroissantAction()
     {
     	$request = $this->getRequest();
@@ -213,12 +157,6 @@ class CroissantsController extends Controller
     		$dayOfSubscription->setTime(0,0);
     		
     		$roleSubscription = $request->request->get('role');
-    		
-    		/*
-    		$test = substr_replace(substr_replace($request->get('date'),'-',2,0), '-',5,0);
-    		$dayOfSubscription_V1 = DateTime::createFromFormat("d-m-Y",$test);
-    		$dayOfSubscription_V1->setTime(0,0);
-    		*/
     		
     		$username = $request->request->get('username');
     		
@@ -323,7 +261,9 @@ class CroissantsController extends Controller
     	
     }
     
-    
+    /**
+     * Ajax function to unscribe the user
+     */
     public function unsubscribeCroissantAction()
     {
     	$request = $this->getRequest();
@@ -386,6 +326,13 @@ class CroissantsController extends Controller
     	
     }
     
+    /**
+     * Ajax function to confirm a user as the croissants bringer.
+     * 
+     * Function used only by Admin
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function confirmUserAction() {
     	
     	$request = $this->getRequest();
@@ -442,6 +389,13 @@ class CroissantsController extends Controller
     	
     }
     
+    /**
+     * Ajax function to enter a remark for a day in the grid.
+     * 
+     * This is used only by the Admin
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function updateRemarkAction() {
     	
     	$request = $this->getRequest();
@@ -490,7 +444,9 @@ class CroissantsController extends Controller
     	}
     }
     
-    
+    /**
+     * Get the stats from the query and call the view to display the table
+     */
     public function statsAction()
     {
     	
