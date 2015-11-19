@@ -100,7 +100,7 @@
 									
 								} else {
 									// Unsubscribing as BACKUP
-									$backupSelect = $('unsubscribeBackup_' + stringDate).parent();
+									$backupSelect = $('#unsubscribeBackup_' + stringDate).parent();
 									$backupSelect.empty();
 									$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
 
