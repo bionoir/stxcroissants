@@ -1,13 +1,10 @@
-
-<!--  <div id="cnfactslide"><p class="text-center"></p></div> -->
-
-<div id="chuckSlider">
-	<!-- <div id="chuckImage" class="col-lg-3">
-		<img alt="Chuck Image" src="{{ asset('bundles/stxcroissants/images/chuck1.png') }}">
-		
-	</div> -->
-	<!-- <p class="text-center"><img alt="Chuck Image" src="{{ asset('bundles/stxcroissants/images/chuck' ~ chuckNorrisImageNumber ~'.png') }}"/><span></span></p> -->
+<!-- 
+<div id="chuckSlider" class="col-lg-12">
 	<p class="text-center"></p>
+</div>
+ -->
+
+<div id="chuckSlider" class="col-lg-12">
 </div>
 
 <script type="text/javascript">
@@ -38,20 +35,35 @@
 		        imgNumber = Math.floor(Math.random()*3) + 1;
 		        		        
 				var assetString = "{{ asset(chuckNorrisImageURL) }}";
+
+				/*var assetString = "http://croissants.hrp.secutix.net/web/bundles/stxcroissants/images/chuck2.png";*/
 				
-				var indexChar = 50;
+				
+				var indexChar = assetString.indexOf(".png") - 1;
 
 				var newURL = assetString.substr(0,indexChar) + imgNumber.toString() + assetString.substr(indexChar + 1);
-		        
+
+				var strA = "<div class=\"col-lg-1\"><img alt=\"Chuck Image\" src=\"";
+				var strB = "\" /></div>	<div class=\"col-lg-10\"><p class=\"text-center\"><span style=\"word-break: break-all\">";
+				var strC = factsArray[curIndex];
+				var strD = "</span></p></div><div class=\"col-lg-1\"><img alt=\"Chuck Image\" src=\"";
+				var strE = "\" /></div>";
+
+				var result = strA.concat(newURL.concat(strB.concat(strC.concat(strD.concat(newURL.concat(strE))))));
+				var html_res = $.parseHTML(result);
+				$('#chuckSlider').empty();
+		        $('#chuckSlider').append(html_res);
+
+		        /*
 		        var str1 = "<img alt=\"Chuck Image\" src=\"";
 		        var str2 = "\" />";
-		        var str3 = "\" /><span>";
+		        var str3 = "\" /><span style=\"word-break: break-all\">";
 		        var str4 = str3.concat(factsArray[curIndex]);
 		        var str5 = "</span>";
 		        var res = str1.concat(newURL.concat(str4.concat(str5.concat(str1.concat(newURL.concat(str2))))));
 		        var html = $.parseHTML(res);
 		        $('#chuckSlider p:first').empty();
-		        $('#chuckSlider p:first').append(html);
+		        $('#chuckSlider p:first').append(html);*/
 		        
 		        document.getElementById('chuckSlider').className = "";
 		    },1000);
