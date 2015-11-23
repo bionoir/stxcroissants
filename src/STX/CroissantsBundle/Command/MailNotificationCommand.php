@@ -36,7 +36,7 @@ class MailNotificationCommand extends ContainerAwareCommand
 						->setSubject('Test email croissants')
 						->setFrom('noreply@croissants.stx.com')
 						->setTo('fabio.dalmasso@secutix.com')
-						->setBody('Test from Admin');
+						->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:test_email.txt.twig', array('emailbody' => $text) ));
 			
 		$transport = \Swift_MailTransport::newInstance();
 		$mailer = \Swift_Mailer::newInstance($transport);
