@@ -1,6 +1,10 @@
 <?php
-
 namespace STX\CroissantsBundle\Controller;
+
+
+// update this to the path to the "vendor/"
+// directory, relative to this file
+require_once __DIR__  . '/../../../../vendor/autoload.php';
 
 use \DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,6 +12,7 @@ use STX\UserBundle\Entity\User;
 use STX\CroissantsBundle\Entity\Friday_Subscriptions;
 use Symfony\Component\HttpFoundation\Response;
 use STX\CroissantsBundle\Tools\factsFromChuckNorris;
+use Symfony\Component\Finder\Finder;
 
 class CroissantsController extends Controller
 {
@@ -132,9 +137,20 @@ class CroissantsController extends Controller
     	$chuckImageNumber = rand(1,3);
     	$chuckImageURL = "bundles/stxcroissants/images/chuck" . $chuckImageNumber . ".png";
     	
+    	$finder = new Finder();
+    	$finder->files()->in(__DIR__ . '/../Resources/public/images');
+    	$counter = 0;
+    	//$filesPaths = array();
+    	
+    	
+    	foreach ($finder as $file) {
+    		$counter = $counter + 1;
+    	}
+    	
     	$template = $this->render('STXCroissantsBundle:Croissants:chucknorrisfacts.html.twig', array('chuckNorrisFacts' => $chuckNorrisFactsList,
     																								'chuckNorrisImageNumber' => $chuckImageNumber,
-    																								'chuckNorrisImageURL' => $chuckImageURL
+    																								'chuckNorrisImageURL' => $chuckImageURL,
+    																								'filesFound' => $counter
     	) );
     	
     	return $template;

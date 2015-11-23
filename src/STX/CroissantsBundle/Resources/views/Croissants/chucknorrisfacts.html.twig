@@ -1,9 +1,3 @@
-<!-- 
-<div id="chuckSlider" class="col-lg-12">
-	<p class="text-center"></p>
-</div>
- -->
-
 <div id="chuckSlider" class="col-lg-12">
 </div>
 
@@ -16,28 +10,13 @@
 		var imgDuration = 6000;
 		var imgNumber = 0;
 
-		function loop() {
-		    if (counter > factsArray.length-1 ) counter = 0;
-		    $('#cnfactslide p:first').html(factsArray[counter]);
-		    counter++;
-		    //console.log(counter);
-		    setTimeout(loop, 6000);
-		}
-		loop();
-
-
 		function slideShow() {
 		    document.getElementById('chuckSlider').className += "fadeOut";
 		    setTimeout(function() {
-		        		        
-		        //$('#chuckSlider p:first span').html(factsArray[curIndex]);
 
-		        imgNumber = Math.floor(Math.random()*3) + 1;
+		        imgNumber = Math.floor(Math.random()* {{ filesFound }} ) + 1;
 		        		        
-				var assetString = "{{ asset(chuckNorrisImageURL) }}";
-
-				/*var assetString = "http://croissants.hrp.secutix.net/web/bundles/stxcroissants/images/chuck2.png";*/
-				
+				var assetString = "{{ asset(chuckNorrisImageURL) }}";				
 				
 				var indexChar = assetString.indexOf(".png") - 1;
 
@@ -53,17 +32,6 @@
 				var html_res = $.parseHTML(result);
 				$('#chuckSlider').empty();
 		        $('#chuckSlider').append(html_res);
-
-		        /*
-		        var str1 = "<img alt=\"Chuck Image\" src=\"";
-		        var str2 = "\" />";
-		        var str3 = "\" /><span style=\"word-break: break-all\">";
-		        var str4 = str3.concat(factsArray[curIndex]);
-		        var str5 = "</span>";
-		        var res = str1.concat(newURL.concat(str4.concat(str5.concat(str1.concat(newURL.concat(str2))))));
-		        var html = $.parseHTML(res);
-		        $('#chuckSlider p:first').empty();
-		        $('#chuckSlider p:first').append(html);*/
 		        
 		        document.getElementById('chuckSlider').className = "";
 		    },1000);
