@@ -1,0 +1,96 @@
+{# src/STX/CroissantsBundle/Resources/views/CroissantsAdmin/test_page_admin.twig #}
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	Various test in admin mode
+{% endblock %}
+
+
+{% block stxcroissants_body %}
+	
+	<button id="buttonA" type="button" class="btn" onclick="test1(this,1)"><i class="glyphicon glyphicon-glass"></i></button>
+	<button id="buttonB" type="button" class="btn" onclick="test2(this,1)"><i class="glyphicon glyphicon-time"></i></button>
+	<button id="buttonC" type="button" class="btn" onclick="test3(this,1)"><i class="glyphicon glyphicon-cloud-upload"></i></button>
+	
+	<div id="testresultarea">
+		<span>Ici s'affiche le resultat</span>
+	</div>
+	
+	 
+{% endblock %}
+
+
+{% block javascriptend %}
+
+	{{ parent() }}
+	
+	<script type="text/javascript">
+
+		function test1(element, argument) {
+
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_admin_test1') }}",
+				data	: {'arg' : argument},
+				success	: function(data){
+							var listemails = data.listofmails,
+								messageToAppend = '';
+
+							messageToAppend = messageToAppend + data.message;
+
+							if (!!listemails) {
+								for(var i = 0; i < listemails.length; i ++) {
+									messageToAppend = messageToAppend + '; ' + listemails[i].user + '-' + listemails[i].email;
+                                }
+							}
+							
+							$textAreaSelect = $('#testresultarea');
+							$textAreaSelect.empty();
+							$textAreaSelect.append('<span>'+messageToAppend+'</span>');
+							
+					},
+				error 	: function(data){
+							alert("Couldn't subscribe user : " + data.message);
+					}
+			});
+		}
+
+		function test2(element, argument) {
+			
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_admin_test2') }}",
+				data	: {'arg' : argument},
+				success	: function(data){
+							$textAreaSelect = $('#testresultarea');
+							$textAreaSelect.empty();
+							$textAreaSelect.append('<span>'+data.message+'</span>');
+							
+					},
+				error 	: function(data){
+							alert("Error appeared : " + data.message);
+					}
+			});
+		}
+
+		function test3(element, argument) {
+			
+			$.ajax({
+				type	: "POST",
+				url		: "{{ path('stx_croissants_admin_test3') }}",
+				data	: {'arg' : argument},
+				success	: function(data){
+							$textAreaSelect = $('#testresultarea');
+							$textAreaSelect.empty();
+							$textAreaSelect.append('<span>'+data.message+'</span>');
+							
+					},
+				error 	: function(data){
+							alert("Error appeared : " + data.message);
+					}
+			});
+		}
+
+	</script>
+	
+{% endblock %}

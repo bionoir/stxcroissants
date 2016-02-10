@@ -12,10 +12,23 @@
 	
 	{% for subscriber in subscribers %}
 	<tr>
-		<td>{{ subscriber['dateSub']|date('d.m.Y') }}</td>
+		<td>
+			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
+				<b><font color="red">{{ subscriber['dateSub']|date('d.m.Y') }}</font></b>
+			{% else %}
+				{{ subscriber['dateSub']|date('d.m.Y') }}
+			{% endif %}
+		</td>
 		{# Main subscriber #}
 		<td>
-			{% if is_granted('ROLE_ADMIN') %}
+			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
+				{#<div id={{ 'jourferieMain_' ~ subscriber['dateSub']|date('dmY') }}>
+					<span class="fa-stack fa-lg">
+  						<i class="fa fa-rebel fa-stack-1x text-danger"></i>
+  						<i class="fa fa-ban fa-stack-2x text-danger"></i>
+					</span>
+				</div>#}
+			{% elseif is_granted('ROLE_ADMIN') %}
 				<div id={{ 'displayMainUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
 						<span> </span>
@@ -54,7 +67,13 @@
 		</td>
 		{# Backup subscriber #}
 		<td>
-			{% if is_granted('ROLE_ADMIN') %}
+			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
+				{#<div id={{ 'jourferieBack_' ~ subscriber['dateSub']|date('dmY') }}>
+					<span class="fa-stack fa-lg">
+  						<i class="fa fa-rebel fa-stack-1x text-danger"></i>
+					</span>
+				</div>#}
+			{% elseif is_granted('ROLE_ADMIN') %}
 				<div id={{ 'displayBackupUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].backupuser is null)) %}
 						<span> </span>
@@ -93,7 +112,13 @@
 		</td>
 		{# Who really brought croissants #}
 		<td>
-			{% if is_granted('ROLE_ADMIN') %}
+			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
+				{#<div id={{ 'jourferieConf_' ~ subscriber['dateSub']|date('dmY') }}>
+					<span class="fa-stack fa-lg">
+  						<i class="fa fa-rebel fa-stack-1x text-danger"></i>
+					</span>
+				</div>#}
+			{% elseif is_granted('ROLE_ADMIN') %}
 				{% if (subscriber['dateSub']|date('U')) <= ( forCompare|date('U')) %}
 					{# Si la date est antérieure ou égale à ajourd'hui et que le champs est vide, alors l'admin peut rentrer un utilisateur #}
 					<select id={{ 'selectConfirmUser_' ~ subscriber['dateSub']|date('dmY') }} class="form-control" onchange="updateConfirmationUser(this, '{{ subscriber['dateSub']|date('dmY') }}')">
@@ -133,7 +158,13 @@
 		</td>
 		{# Remarks#}
 		<td>
-			{% if is_granted('ROLE_ADMIN') %}
+			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
+				<div id={{ 'jourferieComm_' ~ subscriber['dateSub']|date('dmY') }}>
+					<span>
+						<font color="red"><a class="test" href="http://www.google.com/search?q={{ subscriber['userSub'].remark[8:] }}" data-toggle="tooltip" data-placement="top" title="{{ subscriber['userSub'].remark }}">FERIE</a></font>
+					</span>
+				</div>
+			{% elseif is_granted('ROLE_ADMIN') %}
 				{% if (subscriber['dateSub']|date('U')) <= ( forCompare|date('U')) %}
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].remark is null)) %}
 						<textarea id={{ 'remark_' ~ subscriber['dateSub']|date('dmY') }} class="expand" rows="1" cols="10" ></textarea>
@@ -142,7 +173,11 @@
 					{% endif %}				
 					<button id={{ 'updateRemark_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs" onclick="updateRemark('{{ subscriber['dateSub']|date('dmY') }}')"><i class="fa fa-check"></i></button>
 				{% else %}
-					<span></span>
+					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].remark is null)) %}
+						<span></span>
+					{% else %}
+						<span>{{ subscriber['userSub'].remark }}</span>
+					{% endif %}
 				{% endif %}
 			{% else %}
 				{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].remark is null)) %}

@@ -41,22 +41,24 @@ class User extends BaseUser
 	 * @var integer
 	 *
 	 * @ORM\Column(name="days", type="integer", options={"default" = 10})
-	 * @Assert\GreaterThan(value = 1)
-	 * @Assert\LessThan(value = 16)
+	 * @Assert\GreaterThan(value = 0)
+	 * @Assert\LessThan(value = 11)
 	 */
 	private $days;
 	
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="alert_email", type="boolean", options={"default" = 0})
+	 * @ORM\Column(name="alert_email", type="boolean", options={"default" = 1})
 	 */
 	private $alertEmail;
 	
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="alert_days", type="integer", options={"default" = 0})
+	 * @ORM\Column(name="alert_days", type="integer", options={"default" = 1})
+	 * @Assert\GreaterThan(value = 0)
+	 * @Assert\LessThan(value = 7)
 	 */
 	private $alertDays;
 	
@@ -79,7 +81,7 @@ class User extends BaseUser
 		parent::__construct();
 		$this->days = 10;
 		$this->alertEmail = false;
-		$this->alertDays = 0;
+		$this->alertDays = 1;
 		$this->emailVisible = false;
 		$this->homepage = 'Aucune';
 		

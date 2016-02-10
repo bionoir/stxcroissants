@@ -15,3 +15,21 @@
 #chuckSlider.fadeOut {
     opacity:0;
 }
+
+.datepicker .day {
+	font-weight: bold;
+	color: #ff8080;
+}
+
+
+.test + .tooltip > .tooltip-inner {
+      background-color: #ff8080; 
+      color: #FFFFFF; 
+      border: 1px solid red; 
+      padding: 5px;
+      font-size: 10px;
+  }
+  /* Tooltip on top */
+  .test + .tooltip.top > .tooltip-arrow {
+      border-top: 5px solid red;
+  }

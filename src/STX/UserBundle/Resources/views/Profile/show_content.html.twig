@@ -11,10 +11,10 @@
 			<dd>{{ user.Lastname }}</dd>
 			<dt>Jours à afficher</dt>
 			<dd>{{ user.days }}</dd>
-			<dt>Alerte par email</dt>
+			<dt>Notifications par e-mail</dt>
 			<dd>{% if user.alertemail == 0 %}Désactivée{% else %}Activée{% endif %}</dd>
 			<dt>Alerte email envoyée</dt>
-			<dd>{{ user.alertdays }}</strong> jours avant date</dd>
+			<dd>{{ user.alertdays }}</strong> jours avant inscription</dd>
 			<dt>Email</dt>
 			<dd>{% if user.emailvisible == 0 %}Caché{% else %}Visible{% endif %}</dd>
 			<dt>Page d'accueil</dt>

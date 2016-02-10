@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 class MailNotificationCommand extends ContainerAwareCommand
 {
@@ -19,8 +22,6 @@ class MailNotificationCommand extends ContainerAwareCommand
 		$this
 			->setName('notifyMail:send')
 			->setDescription('Notification for subscribers')
-			/*->addArgument()
-			->addOption()*/
 		;
 	}
 
@@ -30,19 +31,33 @@ class MailNotificationCommand extends ContainerAwareCommand
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		
-		$text = "Ceci est un test de notification automatique";
+		$nextUserData = $this->getDoctrine()
+							->getRepository('STXCroissantsBundle:Friday_Subscriptions')
+							->getNextUserForFridaySubscriptions();
 		
-		$message = \Swift_Message::newInstance()
-						->setSubject('Test email croissants')
+		if (sizeof($nextUserData) > 0) {
+			
+			$email = $nextUserData[0]->getUser()->getEmail();
+		
+		
+			$text = "Salut,<br>"
+					."<br>"
+					."Tu es inscrit pour amener les croissants en <b>principal</b> pour ce vendredi";
+		
+			$message = \Swift_Message::newInstance()
+						->setSubject('[Croissants]Rappel pour ce vendredi!')
 						->setFrom('noreply@croissants.stx.com')
-						->setTo('fabio.dalmasso@secutix.com')
+						->setTo($email)
 						->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:test_email.txt.twig', array('emailbody' => $text) ));
 			
-		$transport = \Swift_MailTransport::newInstance();
-		$mailer = \Swift_Mailer::newInstance($transport);
-		$mailer->send($message);
-		
-		$output->writeln("Message sent :" . $text);
+			$transport = \Swift_MailTransport::newInstance();
+			$mailer = \Swift_Mailer::newInstance($transport);
+			$mailer->send($message);
+			
+			$output->writeln("Message sent to " . $email);
+		} else {
+			$output->writeln("No message sent");
+		}
 
 	}
 

@@ -2,18 +2,40 @@
 {% extends "STXCroissantsBundle::layout.html.twig" %}
 
 {% block stxcroissants_head %}
-	This is MAIL
+	Envoi d'un e-mail généralisé
 {% endblock %}
 
 
 {% block stxcroissants_body %}
-	<h4>Test email</h4>
+	<form class="form-horizontal"  method="post" {{ form_enctype(form) }}  >
+			
+		<div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.sujet) }}
+            </div>
+            <div class="col-lg-10">
+                {{ form_widget(form.sujet, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.sujet) }}
+            </div>
+        </div>
+		
+		<div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.message) }}
+            </div>
+            <div class="col-lg-10">
+                {{ form_widget(form.message, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.message) }}
+            </div>
+        </div>
+		
+		{{ form_rest(form) }}
+			
+		<div class="form-group">
+			<div class="col-lg-2 col-lg-offset-2">
+           		<input type="submit" class="btn btn-primary" value="Envoyer e-mail"/>
+           	</div>
+        </div>
+	</form>
 	
-	<div class="well">
-		<form class="form-horizontal"  method="post" {{ form_enctype(form) }}  >
-			{{ form_start(form) }}
-			{{ form_rest(form) }}
-			{{ form_end(form) }}
-		</form>
-	</div>
 {% endblock %}

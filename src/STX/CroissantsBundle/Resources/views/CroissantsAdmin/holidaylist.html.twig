@@ -1,0 +1,23 @@
+<div class="well">
+<h4>Liste des jours fériés enregistrés dans le système</h4>
+</div>
+<table class="table table-striped">
+	<tr>
+		<th>Date</th>
+		<th>Remarque</th>
+		<th>Action</th>
+	</tr>
+	
+	{% for holiday in holidays %}
+	<tr>
+		<td>{{ holiday['date']|date('d.m.Y') }}</td>
+		{# Main subscriber #}
+		<td>{{ holiday['remark'] }}</td>
+		<td>
+			<button id={{ 'removeHoliday_' ~ holiday['date']|date('dmY') }} type="button" class="btn" onclick="removeHolidayFunction(this,'{{ holiday['date']|date('dmY') }}')">
+				<i class="glyphicon glyphicon-remove"></i>
+			</button>
+		</td>
+	</tr>
+	{% endfor %}
+</table>

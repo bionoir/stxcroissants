@@ -50,18 +50,57 @@ stx_croissants_stats:
     pattern:     /stats
     defaults: { _controller: STXCroissantsBundle:Croissants:stats }
 
-stx_croissants_mail:
+stx_croissants_admin_mail:
     pattern:     /admin/mail
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:mail }
     
-stx_croissants_alert:
-    pattern:     /admin/alert
-    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:alert }
+stx_croissants_admin_holidays:
+    pattern:     /admin/holidays
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:holidays }
+
+stx_croissants_admin_holidaylist:
+    pattern: /admin/holidaylist
+    defaults: { _controller: STXCroissantsBundle:Croissants:holidaylist }
+    options:
+        expose: true
     
-stx_croissants_admin:
+stx_croissants_admin_deleteholiday:
+    pattern: /admin/deleteholiday
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:deleteHoliday }
+    requirements:
+        _method : POST
+    
+stx_croissants_admin_admin:
     pattern:     /admin/admin
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:admin }
 
 stx_croissants_admin_importusers:
     pattern:     /admin/importusers
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:importusers }
+    
+stx_croissants_admin_testpage:
+    pattern:     /admin/testpage
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:testpage }
+    
+stx_croissants_admin_test1:
+    pattern:     /admin/test1
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test1 }
+    requirements:
+        _method : POST
+        
+stx_croissants_admin_test2:
+    pattern:     /admin/test2
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test2 }
+    requirements:
+        _method : POST
+        
+stx_croissants_admin_test3:
+    pattern:     /admin/test3
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test3 }
+    requirements:
+        _method : POST
+        
+stx_croissants_admin_insert_subscription:
+    pattern:    /admin/insertsubscription
+    defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:insertsubscription }
+    

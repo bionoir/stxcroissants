@@ -25,5 +25,11 @@
 				{% endblock %}
 			</div>
 	 	</div>
-	</div>        
+	</div>
+	
+	{% block javascriptend %}
+    	
+    	{{ parent() }}
+    	
+    {% endblock %}      
 {% endblock %}

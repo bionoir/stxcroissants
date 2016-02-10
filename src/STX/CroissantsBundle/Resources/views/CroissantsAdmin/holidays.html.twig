@@ -1,0 +1,94 @@
+{# src/STX/CroissantsBundle/Resources/views/CroissantsAdmin/holidays.html.twig #}
+{% extends "STXCroissantsBundle::layout.html.twig" %}
+
+{% block stxcroissants_head %}
+	Page pour gérer les jours fériés
+{% endblock %}
+
+{% block stxcroissants_body %}
+	
+	<form id="sandbox-container" class="form-horizontal" method="post" >
+		<div class="form-group">
+			<div class="col-lg-2 control-label">
+        		<label>Event</label>
+        	</div>
+        	<div class="col-lg-10">
+            	<input type="text" class="form-control" name="event" />
+        	</div>
+    </div>
+	    
+	    <div class="form-group">
+	    	<div class="col-lg-2 control-label">
+	    		<label>Date</label>
+	    	</div>
+	    	<div class="col-lg-10">
+	    		<div class="input-group date">
+	      			<input type="text" class="form-control" name="date"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+	      		</div>
+	    	</div>
+		</div>
+		
+		<div class="form-group">
+				<div class="col-lg-2 col-lg-offset-2">
+            		<input type="submit" class="btn btn-primary" value="Ajouter jour férié"/>
+            	</div>
+        	</div>
+	</form>
+	
+	
+	</br>
+	
+	<div id="holidaylist">
+		
+		{{ render(controller('STXCroissantsBundle:CroissantsAdmin:holidaylist')) }}
+		
+	</div>
+	
+	
+	
+	<script>
+		$(document).ready(
+			function() {
+				$('#sandbox-container .input-group.date').datepicker({
+			        format: "dd/mm/yyyy",
+			        language: "fr",
+			        daysOfWeekDisabled: "0,1,2,3,4,6",
+			        daysOfWeekHighlighted: "5",
+			        autoclose: true
+			    });
+			});
+
+			function confirmDelete() {
+				return confirm('Voulez-vous vraiement effacer ce jour férié ?');
+			}
+
+			function removeHolidayFunction(element, stringDate) {
+				
+				if (!confirmDelete()) return false;
+
+				$.ajax({
+					type	: "POST",
+					url		: "{{ path('stx_croissants_admin_deleteholiday') }}",
+					data	: {'date' : stringDate },
+					success	: function(data){
+								if (data.success) {
+									alert('OK : ' + data.message);
+									template = data.template;
+									$('#holidaylist').empty();
+									$('#holidaylist').html(template);
+									
+								} else {
+									alert('Something went wrong : ' + data.message);
+								}
+						},
+					error 	: function(data){
+								alert("Couldn't subscribe user : " + data.message);
+						}
+				});
+			}
+
+		
+	        
+	    
+   	</script>
+{% endblock %}

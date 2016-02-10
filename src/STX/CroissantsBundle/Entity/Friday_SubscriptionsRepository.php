@@ -12,17 +12,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
  * repository methods below.
  */
 class Friday_SubscriptionsRepository extends EntityRepository
-{
-	
-	public function getUserForDay($date) {
-		
-		$queryBuilder = $this->_em->createQueryBuilder()
-									->select('fs')
-									->from($this->_entityName, 'fs')
-									->where($predicates);
-		;
-	}
-	
+{	
 	public function getStatsForFridaySubscriptionsOverYear() {
 		
 		$rsm = new ResultSetMapping();
@@ -54,6 +44,125 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		return $stats;
 	}
 	
+	public function getNextUserForFridaySubscriptions() {
+		
+		$rsm = new ResultSetMapping();
+		$rsm->addEntityResult('STX\CroissantsBundle\Entity\Friday_Subscriptions', 'fs' );
+		$rsm->addFieldResult('fs', 'user_id', 'id');
+		$rsm->addJoinedEntityResult('STX\UserBundle\Entity\User', 'cu' , 'fs', 'user');
+		$rsm->addFieldResult('cu', 'id', 'id');
+		$rsm->addFieldResult('cu', 'username', 'username');
+		$rsm->addFieldResult('cu', 'email', 'email');
+		
+		
+		$sql = 'select fs.user_id, cu.id, cu.username, cu.email'
+				.'	from friday_subscriptions fs '
+				.'	left join croissants_user cu on cu.id = fs.user_id '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	AND cu.alert_email = 1 '
+				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
+				.'	ORDER BY fs.date DESC '
+				.'	LIMIT 1'; 
+
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+
+		$results = $query->getResult();
+
+		return $results;
+		
+	}
+	
+	public function getNextBackupForFridaySubscriptions() {
+	
+		$rsm = new ResultSetMapping();
+		$rsm->addEntityResult('STX\CroissantsBundle\Entity\Friday_Subscriptions', 'fs' );
+		$rsm->addFieldResult('fs', 'user_id', 'id');
+		$rsm->addJoinedEntityResult('STX\UserBundle\Entity\User', 'cu' , 'fs', 'user');
+		$rsm->addFieldResult('cu', 'id', 'id');
+		$rsm->addFieldResult('cu', 'username', 'username');
+		$rsm->addFieldResult('cu', 'email', 'email');
+	
+	
+		$sql = 'select fs.backup_user_id, cu.id, cu.username, cu.email'
+				.'	from friday_subscriptions fs '
+				.'	left join croissants_user cu on cu.id = fs.backup_user_id '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	AND cu.alert_email = 1 '
+				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
+				.'	AND fs.user_id IS NULL '
+				.'	ORDER BY fs.date DESC '
+				.'	LIMIT 1';
+
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+
+		$results = $query->getResult();
+
+		return $results;
+	
+	}
+	
+	public function getHolidays(){
+		$rsm = new ResultSetMapping();
+		$rsm->addEntityResult('STX\CroissantsBundle\Entity\Friday_Subscriptions', 'fs' );
+		$rsm->addFieldResult('fs', 'id', 'id');
+		$rsm->addFieldResult('fs', 'date', 'date');
+		$rsm->addFieldResult('fs', 'remark', 'remark');
+		
+		
+		$sql = 'select fs.id, fs.date, fs.remark'
+				.'	from friday_subscriptions fs '
+				.'	where fs.date >= NOW() '
+				.'	AND fs.remark like \'FERIE -%\''
+				.'	ORDER BY fs.date ASC ';
+		
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+
+		$results = $query->getResult();
+
+		return $results;
+	}
+	
+	
+	public function isNextFridayHoliday(){
+		
+		$rsm = new ResultSetMapping();
+		$rsm->addEntityResult('STX\CroissantsBundle\Entity\Friday_Subscriptions', 'fs' );
+		$rsm->addScalarResult('subscribers', 'subscribers');
+		
+		$sql = 'select COUNT(*) as subscribers'
+				.'	from friday_subscriptions fs '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	AND fs.remark like \'FERIE -%\''
+		;
+
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+
+		$results = $query->getResult();
+		
+		return $results;
+	}
+	
+	
+	public function getNextFridaySubscribers() {
+	
+		$rsm = new ResultSetMapping();
+		$rsm->addEntityResult('STX\CroissantsBundle\Entity\Friday_Subscriptions', 'fs' );
+		$rsm->addScalarResult('subscribers', 'subscribers');
+	
+		$sql = 'select COUNT(*) as subscribers'
+				.'	from friday_subscriptions fs '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	AND ((fs.user_id IS NOT NULL) OR (fs.backup_user_id IS NOT NULL)) '
+				;
+
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+
+		$results = $query->getResult();
+
+		return $results;
+	
+	}
+	
 	public function getStatsForFridaySubscriptionsOverDate($date) {
 		if (is_null($date)) {
 			return getStatsForFridaySubscriptionsOverYear();
@@ -78,6 +187,27 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		
 		return $croissantsusers;
 		
+	}
+	
+	public function getUsersListForEmail() {
+	
+		$rsm = new ResultSetMapping();
+	
+		$rsm->addEntityResult('STX\UserBundle\Entity\User', 'cu');
+	
+		$rsm->addScalarResult('cu_usr', 'cu_usr');
+		$rsm->addScalarResult('cu_email', 'cu_email');
+		$rsm->addScalarResult('cu_firstname', 'cu_firstname');
+		$rsm->addScalarResult('cu_lastname', 'cu_lastname');
+	
+		$sql = "select cu.username as cu_usr, cu.email as cu_email, cu.firstname as cu_firstname, cu.lastname as cu_lastname from croissants_user cu where cu.enabled = 1 and cu.alert_email = 1 and cu.roles = 'a:0:{}' order by cu.username";
+	
+		$query = $this->_em->createNativeQuery($sql, $rsm);
+	
+		$croissantsusers = $query->getResult();
+	
+		return $croissantsusers;
+	
 	}
 	
 }
