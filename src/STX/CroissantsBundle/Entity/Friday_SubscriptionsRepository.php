@@ -28,7 +28,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		$rsm->addFieldResult('cu', 'username', 'username');
 		
 		$sql = 'select fs.confirmation_user_id, min(fs.date) as first, max(fs.date) as last, cu.id, cu.username, ' 
-				.'	count(*) as total, datediff(now(), min(fs.date)) as timepassed, ' 
+				.'	count(*) as total, datediff(now(), max(fs.date)) as timepassed, ' 
 				.'	round(datediff(now(),  min(fs.date)) / count(*)) as idletime'
 				.'	from friday_subscriptions fs '
 				.'	inner join croissants_user cu on cu.id = fs.confirmation_user_id '
