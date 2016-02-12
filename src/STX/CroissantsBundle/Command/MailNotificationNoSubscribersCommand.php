@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 
-class MailNotificationNoSubscribers extends ContainerAwareCommand
+class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 {
 	
 	/* 
