@@ -32,18 +32,23 @@ class MailNotificationNoSubscribers extends ContainerAwareCommand
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		
-		$fridayHoliday = $this->getDoctrine()->getRepository('STXCroissantsBundle:Friday_Subscriptions')->isNextFridayHoliday();
+		$fridayHoliday = $this->getContainer()
+							->get('doctrine')
+							->getRepository('STXCroissantsBundle:Friday_Subscriptions')
+							->isNextFridayHoliday();
 		
 		/* if next friday is a holiday, then no notification must be sent */
 		if ($fridayHoliday[0]['subscribers'] == 0) {
 		
-			$nbrOfSubscribers = $this->getDoctrine()
+			$nbrOfSubscribers = $this->getContainer()
+								->get('doctrine')
 								->getRepository('STXCroissantsBundle:Friday_Subscriptions')
 								->getNextFridaySubscribers();
 			
 			if (sizeof($nbrOfSubscribers) == 0) {
 				
-				$userList =  $this->getDoctrine()
+				$userList =  $this->getContainer()
+									->get('doctrine')
 									->getRepository('STXCroissantsBundle:Friday_Subscriptions')
 									->getUsersListForEmail();
 					

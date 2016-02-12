@@ -32,7 +32,8 @@ class MailNotificationCommand extends ContainerAwareCommand
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		
-		$nextUserData = $this->getDoctrine()
+		$nextUserData = $this->getContainer()
+							->get('doctrine')
 							->getRepository('STXCroissantsBundle:Friday_Subscriptions')
 							->getNextUserForFridaySubscriptions();
 		
