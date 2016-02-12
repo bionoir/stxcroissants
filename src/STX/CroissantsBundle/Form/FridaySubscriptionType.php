@@ -16,9 +16,6 @@ class FridaySubscriptionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		
 		$builder
-			/*->add('date',DateType::class, array('input' => 'datetime',
-										'widget' => 'choice',
-										'label' => 'Vendredi'))*/
 			->add('date','date', array('widget' => 'single_text',
     									'format' => 'dd.MM.yyyy',
     									'attr' => array ('class' => 'form-control input-inline datepicker',

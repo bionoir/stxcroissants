@@ -45,7 +45,7 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 								->getRepository('STXCroissantsBundle:Friday_Subscriptions')
 								->getNextFridaySubscribers();
 			
-			if (sizeof($nbrOfSubscribers) == 0) {
+			if ($nbrOfSubscribers[0]['subscribers'] == 0) {
 				
 				$userList =  $this->getContainer()
 									->get('doctrine')
@@ -88,7 +88,7 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 				
 				$output->writeln($text . "Notification sent to reming to subscribe for next friday!");
 			} else {
-				$output->writeln("No message sent");
+				$output->writeln("No message sent, found " . $nbrOfSubscribers[0]['subscribers'] . " in DB!");
 			}
 		}
 	}
