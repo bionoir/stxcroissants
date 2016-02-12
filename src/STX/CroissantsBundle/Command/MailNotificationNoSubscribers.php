@@ -22,6 +22,7 @@ class MailNotificationNoSubscribers extends ContainerAwareCommand
 		$this
 			->setName('notifyMailNoSubscribers:send')
 			->setDescription('Notification when no subscribers')
+			->addArgument('test', InputArgument::OPTIONAL, 'Do you want to test?')
 		;
 	}
 
@@ -70,9 +71,17 @@ class MailNotificationNoSubscribers extends ContainerAwareCommand
 				
 				$transport = \Swift_MailTransport::newInstance();
 				$mailer = \Swift_Mailer::newInstance($transport);
-				$mailer->send($message);
 				
-				$output->writeln("Notification sent to reming to subscribe for next friday!");
+				$testing = $input->getArgument('test');
+				$text = '';
+				
+				if ($testing) {
+					$text = 'TESTING!!! ';
+				} else {
+					$mailer->send($message);
+				}
+				
+				$output->writeln($text . "Notification sent to reming to subscribe for next friday!");
 			} else {
 				$output->writeln("No message sent");
 			}

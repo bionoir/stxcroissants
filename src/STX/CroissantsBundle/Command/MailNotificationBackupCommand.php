@@ -22,6 +22,7 @@ class MailNotificationBackupCommand extends ContainerAwareCommand
 		$this
 			->setName('notifyMailBackup:send')
 			->setDescription('Notification for backup subscribers')
+			->addArgument('test', InputArgument::OPTIONAL, 'Do you want to test?')
 		;
 	}
 
@@ -52,9 +53,17 @@ class MailNotificationBackupCommand extends ContainerAwareCommand
 			
 			$transport = \Swift_MailTransport::newInstance();
 			$mailer = \Swift_Mailer::newInstance($transport);
-			$mailer->send($message);
 			
-			$output->writeln("Message sent to " . $email);
+			$testing = $input->getArgument('test');
+			$text = '';
+			
+			if ($testing) {
+				$text = 'TESTING!!! ';
+			} else {
+				$mailer->send($message);
+			}
+			
+			$output->writeln($text . "Message sent to " . $email);
 		} else {
 			$output->writeln("No message sent");
 		}

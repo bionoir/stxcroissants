@@ -22,6 +22,7 @@ class MailNotificationCommand extends ContainerAwareCommand
 		$this
 			->setName('notifyMail:send')
 			->setDescription('Notification for subscribers')
+			->addArgument('test', InputArgument::OPTIONAL, 'Do you want to test?')
 		;
 	}
 
@@ -52,9 +53,16 @@ class MailNotificationCommand extends ContainerAwareCommand
 			
 			$transport = \Swift_MailTransport::newInstance();
 			$mailer = \Swift_Mailer::newInstance($transport);
-			$mailer->send($message);
+			$testing = $input->getArgument('test');
+			$text = '';
+				
+			if ($testing) {
+				$text = 'TESTING!!! ';
+			} else {
+				$mailer->send($message);
+			}
 			
-			$output->writeln("Message sent to " . $email);
+			$output->writeln($text . "Message sent to " . $email);
 		} else {
 			$output->writeln("No message sent");
 		}
