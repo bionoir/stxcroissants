@@ -1,5 +1,5 @@
 stx_croissants_home:
-    pattern:     /{date}
+    path:     /{date}
     defaults: { _controller: STXCroissantsBundle:Croissants:home, date : null }
     requirements:
         date: \d+
@@ -7,31 +7,27 @@ stx_croissants_home:
         expose: true
     
 stx_croissants_subscribe:
-    pattern: /subscribeCroissant
+    path: /subscribeCroissant
     defaults: { _controller: STXCroissantsBundle:Croissants:subscribeCroissant }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_unsubscribe:
-    pattern: /unsubscribeCroissant
+    path: /unsubscribeCroissant
     defaults: { _controller: STXCroissantsBundle:Croissants:unsubscribeCroissant }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_confirmuser:
-    pattern: /confirmUser
+    path: /confirmUser
     defaults: { _controller: STXCroissantsBundle:Croissants:confirmUser }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_updateremark:
-    pattern: /updateRemark
+    path: /updateRemark
     defaults: { _controller: STXCroissantsBundle:Croissants:updateRemark }
-    requirements:
-        _method : POST
+    methods : [POST]
 
 stx_croissants_subscriberlist:
-    pattern: /subscriberlist/{date}
+    path: /subscriberlist/{date}
     defaults: { _controller: STXCroissantsBundle:Croissants:subscriberlist, date : null }
     requirements:
         date: \d+
@@ -39,68 +35,64 @@ stx_croissants_subscriberlist:
         expose: true
 
 stx_croissants_list:
-    pattern:     /list
+    path:     /list
     defaults: { _controller: STXCroissantsBundle:Croissants:list }
     
 stx_croissants_prefs:
-    pattern:     /prefs
+    path:     /prefs
     defaults: { _controller: STXCroissantsBundle:Croissants:prefs }
     
 stx_croissants_stats:
-    pattern:     /stats
+    path:     /stats
     defaults: { _controller: STXCroissantsBundle:Croissants:stats }
 
 stx_croissants_admin_mail:
-    pattern:     /admin/mail
+    path:     /admin/mail
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:mail }
     
 stx_croissants_admin_holidays:
-    pattern:     /admin/holidays
+    path:     /admin/holidays
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:holidays }
 
 stx_croissants_admin_holidaylist:
-    pattern: /admin/holidaylist
+    path: /admin/holidaylist
     defaults: { _controller: STXCroissantsBundle:Croissants:holidaylist }
     options:
         expose: true
     
 stx_croissants_admin_deleteholiday:
-    pattern: /admin/deleteholiday
+    path: /admin/deleteholiday
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:deleteHoliday }
-    requirements:
-        _method : POST
+    methods : ['POST']
     
 stx_croissants_admin_admin:
-    pattern:     /admin/admin
+    path:     /admin/admin
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:admin }
 
 stx_croissants_admin_importusers:
-    pattern:     /admin/importusers
+    path:     /admin/importusers
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:importusers }
     
 stx_croissants_admin_testpage:
-    pattern:     /admin/testpage
+    path:     /admin/testpage
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:testpage }
     
 stx_croissants_admin_test1:
-    pattern:     /admin/test1
+    path:     /admin/test1
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test1 }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_admin_test2:
-    pattern:     /admin/test2
+    path:     /admin/test2
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test2 }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_admin_test3:
-    pattern:     /admin/test3
+    path:     /admin/test3
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:test3 }
-    requirements:
-        _method : POST
+    methods : [POST]
         
 stx_croissants_admin_insert_subscription:
-    pattern:    /admin/insertsubscription
+    path:    /admin/insertsubscription
     defaults: { _controller: STXCroissantsBundle:CroissantsAdmin:insertsubscription }
     

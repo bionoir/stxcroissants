@@ -64,10 +64,10 @@
 		                            {% if is_granted('ROLE_ADMIN') %}
 		                            <li class="nav-divider"></li>
 		                            <li><a href="{{ path('stx_croissants_admin_mail') }}">Mail</a></li>
+		                            <li><a href="{{ path('stx_croissants_admin_insert_subscription') }}">Ajouts manuels</a></li>
 		                            <li><a href="{{ path('stx_croissants_admin_holidays') }}">Jours fériés</a></li>
 		                            <li><a href="{{ path('stx_croissants_admin_admin') }}">Administration</a></li>
 		                            <li><a href="{{ path('stx_croissants_admin_testpage') }}">Page de test</a></li>
-		                            <li><a href="{{ path('stx_croissants_admin_insert_subscription') }}">Ajouts manuels</a></li>
 		                            {% endif %}
 		                            {% if app.user %}
 		                            	<li class="nav-divider"></li>

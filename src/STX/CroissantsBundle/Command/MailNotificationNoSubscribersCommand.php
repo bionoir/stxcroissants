@@ -86,7 +86,7 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 					$mailer->send($message);
 				}
 				
-				$output->writeln($text . "Notification sent to reming to subscribe for next friday!");
+				$output->writeln($text . "Notification sent for reminding to subscribe for next friday!");
 			} else {
 				$output->writeln("No message sent, found " . $nbrOfSubscribers[0]['subscribers'] . " in DB!");
 			}
