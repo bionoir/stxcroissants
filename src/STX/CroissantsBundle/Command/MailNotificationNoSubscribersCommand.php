@@ -72,7 +72,7 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 							->setSubject('[Croissants] ***** Personne pour vendredi! *****')
 							->setFrom('noreply@croissants.stx.com')
 							->setTo($userArray)
-							->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.txt.twig', array('emailbody' => $text)),
+							->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.html.twig', array('emailbody' => $text)),
 										'text/html');
 				
 				$transport = \Swift_MailTransport::newInstance();

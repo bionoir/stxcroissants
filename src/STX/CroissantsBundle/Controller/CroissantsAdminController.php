@@ -179,16 +179,16 @@ class CroissantsAdminController extends Controller
 			$message = \Swift_Message::newInstance()
 				->setSubject($data['sujet'])
 				->setFrom('noreply@croissants.stx.com')
-				->setTo($userArray)
-				->setBody($this->renderView('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.txt.twig', array('emailbody' => $data['message']) ));
+				//->setTo($userArray)
+				->setTo('fabio.dalmasso@secutix.com')
+				->setBody($this->renderView('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.html.twig', array('emailbody' => $data['message']) ),
+						'text/html');
 			
 			$transport = \Swift_MailTransport::newInstance();
 			$mailer = \Swift_Mailer::newInstance($transport);
 			$mailer->send($message);
 			
-			//$this->get('mailer')->send($message);
 			$this->get('session')->getFlashBag()->add('success', 'Email envoyé!');
-			//return $this->redirect($this->generateUrl('stx_croissants_mail'));
 			return $this->render('STXCroissantsBundle:CroissantsAdmin:mail.html.twig', array('form' => $form->createView()));
 		}
 		
