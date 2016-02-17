@@ -61,8 +61,8 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 				}
 				
 				
-				$text = "Hello,<br>"
-						."<br>"
+				$text = "Hello,<br/>"
+						."<br/>"
 						."C'est la catastrophe, il n'y a toujours personne inscrite pour ce vendredi!"
 						."<br>"
 						."Qui est le valereux volontaire qui sauvera la ter...errrr... notre sacro-saint vendredi ?"
@@ -72,7 +72,8 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 							->setSubject('[Croissants] ***** Personne pour vendredi! *****')
 							->setFrom('noreply@croissants.stx.com')
 							->setTo($userArray)
-							->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.txt.twig', array('emailbody' => $text) ));
+							->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.txt.twig', array('emailbody' => $text)),
+										'text/html');
 				
 				$transport = \Swift_MailTransport::newInstance();
 				$mailer = \Swift_Mailer::newInstance($transport);

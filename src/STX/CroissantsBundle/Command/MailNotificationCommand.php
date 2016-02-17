@@ -42,8 +42,8 @@ class MailNotificationCommand extends ContainerAwareCommand
 			$email = $nextUserData[0]->getUser()->getEmail();
 		
 		
-			$text = "Salut,<br>"
-					."<br>"
+			$text = "Salut,<br/>"
+					."<br/>"
 					."Tu es inscrit pour amener les croissants en <b>principal</b> pour ce vendredi";
 		
 			$message = \Swift_Message::newInstance()
