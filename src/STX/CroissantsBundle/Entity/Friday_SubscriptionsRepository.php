@@ -59,7 +59,8 @@ class Friday_SubscriptionsRepository extends EntityRepository
 				.'	from friday_subscriptions fs '
 				.'	left join croissants_user cu on cu.id = fs.user_id '
 				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
-				.'	AND cu.alert_email = 1 '
+				.'	AND cu.alert_email = 1 ' 
+				.'  AND cu.enabled = 1 '
 				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
 				.'	ORDER BY fs.date DESC '
 				.'	LIMIT 1'; 
@@ -88,6 +89,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 				.'	left join croissants_user cu on cu.id = fs.backup_user_id '
 				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
 				.'	AND cu.alert_email = 1 '
+				.' 	AND cu.enabled = 1 '
 				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
 				.'	AND fs.user_id IS NULL '
 				.'	ORDER BY fs.date DESC '
@@ -200,7 +202,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		$rsm->addScalarResult('cu_firstname', 'cu_firstname');
 		$rsm->addScalarResult('cu_lastname', 'cu_lastname');
 	
-		$sql = "select cu.username as cu_usr, cu.email as cu_email, cu.firstname as cu_firstname, cu.lastname as cu_lastname from croissants_user cu where cu.enabled = 1 and cu.alert_email = 1 and cu.roles = 'a:0:{}' order by cu.username";
+		$sql = "select cu.username as cu_usr, cu.email as cu_email, cu.firstname as cu_firstname, cu.lastname as cu_lastname from croissants_user cu where cu.enabled = 1 and cu.roles = 'a:0:{}' order by cu.username";
 	
 		$query = $this->_em->createNativeQuery($sql, $rsm);
 	
