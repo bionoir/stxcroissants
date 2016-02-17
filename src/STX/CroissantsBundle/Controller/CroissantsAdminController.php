@@ -179,8 +179,7 @@ class CroissantsAdminController extends Controller
 			$message = \Swift_Message::newInstance()
 				->setSubject($data['sujet'])
 				->setFrom('noreply@croissants.stx.com')
-				//->setTo($userArray)
-				->setTo('fabio.dalmasso@secutix.com')
+				->setTo($userArray)
 				->setBody($this->renderView('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.html.twig', array('emailbody' => $data['message']) ),
 						'text/html');
 			
