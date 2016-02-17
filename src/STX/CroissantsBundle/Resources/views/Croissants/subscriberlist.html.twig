@@ -21,13 +21,10 @@
 		</td>
 		{# Main subscriber #}
 		<td>
+			{# Si c'est un jour férié, rien à afficher #}
 			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
-				{#<div id={{ 'jourferieMain_' ~ subscriber['dateSub']|date('dmY') }}>
-					<span class="fa-stack fa-lg">
-  						<i class="fa fa-rebel fa-stack-1x text-danger"></i>
-  						<i class="fa fa-ban fa-stack-2x text-danger"></i>
-					</span>
-				</div>#}
+			
+			{# Si c'est l'administrateur, il faut juste afficher l'inscrit si présent #}
 			{% elseif is_granted('ROLE_ADMIN') %}
 				<div id={{ 'displayMainUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
@@ -36,28 +33,40 @@
 						<span>{{ subscriber['userSub'].user.username }}</span>
 					{% endif %}
 				</div>
+				
+			{# Si c'est un utilisateur #}
 			{% else %}
 				<div id={{ 'displayMainUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
+				
+				{# Si la date est dans le passé, alors il faut juste afficher l'inscrit si présent #}
 				{% if (subscriber['dateSub']|date('U')) < ( forCompare|date('U')) %}
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
 						<span> </span>
 					{% else %}
 						<span>{{ subscriber['userSub'].user.username }}</span>
 					{% endif %}
+				
+				{# Si c'est aujourd'hui ou dans le futur #}
 				{% else %}
+					
+					{# S'il n'y a pas d'inscrit en principal #}
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].user is null)) %}
+						{# S'il n'y a pas d'enregistrements dans la base alors, afficher le bouton d'inscription #}
 						{% if subscriber['userSub'] is null %}
-							<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
-						{% elseif subscriber['userSub'].backupuser is null %}
-							<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
-						{% elseif subscriber['userSub'].user.username == username %}
-							<i class="glyphicon glyphicon-arrow-right"></i>
+							<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
+						{# S'il y a un enregistrement #}
+						{% elseif subscriber['userSub'].user is null %}								
+							{% if ((subscriber['userSub'].backupuser is not null) and (subscriber['userSub'].backupuser.username == username)) %}
+								
+							{% else %}
+								<button id={{ 'subscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-pencil"></i></button>
+							{% endif  %}
 						{% endif %}
 					{% else %}
 						<div id="userSpace">
 							<span>{{ subscriber['userSub'].user.username }}</span>
 							{% if subscriber['userSub'].user.username == username %}
-								<button id={{ 'unsubscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-remove"></i></button>
+								<button id={{ 'unsubscribe_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-danger" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',1)"><i class="glyphicon glyphicon-remove"></i></button>
 							{% endif %}
 						</div>
 					{% endif %}
@@ -67,12 +76,10 @@
 		</td>
 		{# Backup subscriber #}
 		<td>
+			{# Si c'est un jour férié, rien à afficher #}
 			{% if subscriber['userSub'] is defined and subscriber['userSub'].remark is defined and subscriber['userSub'].remark starts with 'FERIE -'  %}
-				{#<div id={{ 'jourferieBack_' ~ subscriber['dateSub']|date('dmY') }}>
-					<span class="fa-stack fa-lg">
-  						<i class="fa fa-rebel fa-stack-1x text-danger"></i>
-					</span>
-				</div>#}
+			
+			{# Si c'est l'administrateur, il faut juste afficher le backup user si présent #}
 			{% elseif is_granted('ROLE_ADMIN') %}
 				<div id={{ 'displayBackupUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].backupuser is null)) %}
@@ -81,28 +88,36 @@
 						<span>{{ subscriber['userSub'].backupuser.username }}</span>
 					{% endif %}
 				</div>
+			
+			{# Si c'est un utilisateur #}
 			{% else %}
 				<div id={{ 'displayBackupUserFor_' ~ subscriber['dateSub']|date('dmY') }}>
+				
+				{# Si la date est dans le passé, alors il faut juste afficher le backup user si présent #}
 				{% if (subscriber['dateSub']|date('U')) < ( forCompare|date('U')) %}
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].backupuser is null)) %}
 						<span> </span>
 					{% else %}
 						<span>{{ subscriber['userSub'].backupuser.username }}</span>
 					{% endif %}
+				
+				{# Si c'est aujourd'hui ou dans le futur #}
 				{% else %}
 					{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].backupuser is null)) %}
 						{% if subscriber['userSub'] is null %}
-							<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
+							<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
 						{% elseif subscriber['userSub'].backupuser is null %}
-							<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
-						{% elseif subscriber['userSub'].backupuser.username == username %}
-							<i class="glyphicon glyphicon-arrow-left"></i>
+							{% if ((subscriber['userSub'].user is not null) and (subscriber['userSub'].user.username == username)) %}
+								
+							{% else %}
+								<button id={{ 'subscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-pencil"></i></button>
+							{% endif  %}
 						{% endif %}
 					{% else %}
 						<div id="userSpace">
 							<span>{{ subscriber['userSub'].backupuser.username }}</span>
 							{% if subscriber['userSub'].backupuser.username == username %}
-								<button id={{ 'unsubscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-remove"></i></button>
+								<button id={{ 'unsubscribeBackup_' ~ subscriber['dateSub']|date('dmY') }} type="button" class="btn btn-xs btn-danger" onclick="unsubscribeFunction(this,'{{ subscriber['dateSub']|date('dmY') }}','{{ username }}',0)"><i class="glyphicon glyphicon-remove"></i></button>
 							{% endif %}
 						</div>
 					{% endif %}
@@ -121,7 +136,7 @@
 			{% elseif is_granted('ROLE_ADMIN') %}
 				{% if (subscriber['dateSub']|date('U')) <= ( forCompare|date('U')) %}
 					{# Si la date est antérieure ou égale à ajourd'hui et que le champs est vide, alors l'admin peut rentrer un utilisateur #}
-					<select id={{ 'selectConfirmUser_' ~ subscriber['dateSub']|date('dmY') }} class="form-control" onchange="updateConfirmationUser(this, '{{ subscriber['dateSub']|date('dmY') }}')">
+					<select id={{ 'selectConfirmUser_' ~ subscriber['dateSub']|date('dmY') }} class="form-control input-sm" onchange="updateConfirmationUser(this, '{{ subscriber['dateSub']|date('dmY') }}')">
 						{% if ((subscriber['userSub'] is null) or (subscriber['userSub'].confirmationuser is null)) %}
 							<option value="">Select...</option>
 							{% for crusers in croissantsUsers %}

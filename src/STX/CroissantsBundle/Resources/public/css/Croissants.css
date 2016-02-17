@@ -28,8 +28,18 @@
       border: 1px solid red; 
       padding: 5px;
       font-size: 10px;
-  }
-  /* Tooltip on top */
-  .test + .tooltip.top > .tooltip-arrow {
+}
+  
+/* Tooltip on top */
+.test + .tooltip.top > .tooltip-arrow {
       border-top: 5px solid red;
-  }
+}
+
+.glyphicon-large {
+    /* min-height: 260px;
+    line-height: 260px;*/
+    font-size: 35px;
+    width: 1em;
+    display: block;
+    margin: -0.5em auto 0px;
+}

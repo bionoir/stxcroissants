@@ -51,20 +51,20 @@
 									// Subscribing as MAIN
 									$mainSelect = $('#subscribe_' + stringDate).parent();
 									$mainSelect.empty();
-									$mainSelect.append('<span>'+data.user+'</span><button id="unsubscribe_'+stringDate+'" type="button" class="btn" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
+									$mainSelect.append('<span>'+data.user+'</span> <button id="unsubscribe_'+stringDate+'" type="button" class="btn btn-xs btn-danger" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
 
 									$backupSelect = $('#subscribeBackup_' + stringDate).parent();
 									$backupSelect.empty();
-									$backupSelect.append('<i class="glyphicon glyphicon-arrow-left"></i>');
+									//$backupSelect.append('<i class="glyphicon glyphicon-arrow-left"></i>');
 								} else {
 									// Subscribing as BACKUP
 									$backupSelect = $('#subscribeBackup_' + stringDate).parent();
 									$backupSelect.empty();
-									$backupSelect.append('<span>'+data.user+'</span><button id="unsubscribeBackup_'+stringDate+'" type="button" class="btn" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
+									$backupSelect.append('<span>'+data.user+'</span> <button id="unsubscribeBackup_'+stringDate+'" type="button" class="btn btn-xs btn-danger" onclick="unsubscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-remove"></i></button>');
 
 									$mainSelect = $('#subscribe_' + stringDate).parent();
 									$mainSelect.empty();
-									$mainSelect.append('<i class="glyphicon glyphicon-arrow-right"></i>');
+									//$mainSelect.append('<i class="glyphicon glyphicon-arrow-right"></i>');
 								}
 							} else {
 								alert('Something went wrong : ' + data.message);
@@ -89,26 +89,26 @@
 									// Unsubscribing as MAIN
 									$mainSelect = $('#unsubscribe_' + stringDate).parent();
 									$mainSelect.empty();
-									$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
+									$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
 
 									$isThereBackup = $('#displayBackupUserFor_' + stringDate + ' div#userSpace');
 									if ( $isThereBackup.length == 0 ){
 										$backupSelect = $('#displayBackupUserFor_' + stringDate);
 										$backupSelect.empty();
-										$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',0)"><i class="glyphicon glyphicon-pencil"></i></button>');
+										$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',0)"><i class="glyphicon glyphicon-pencil"></i></button>');
 									}
 									
 								} else {
 									// Unsubscribing as BACKUP
 									$backupSelect = $('#unsubscribeBackup_' + stringDate).parent();
 									$backupSelect.empty();
-									$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
+									$backupSelect.append('<button id="subscribeBackup_' + stringDate + '" type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',' +role+ ')"><i class="glyphicon glyphicon-pencil"></i></button>');
 
 									$isThereMain = $('#displayMainUserFor_' + stringDate + ' div#userSpace');
 									if ( $isThereMain.length == 0) {
 										$mainSelect = $('#displayMainUserFor_' + stringDate);
 										$mainSelect.empty();
-										$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',1)"><i class="glyphicon glyphicon-pencil"></i></button>');
+										$mainSelect.append('<button id="subscribe_' + stringDate + '" type="button" class="btn btn-xs btn-primary" onclick="subscribeFunction(this,\''+stringDate+'\',\''+data.user+'\',1)"><i class="glyphicon glyphicon-pencil"></i></button>');
 									}
 								}
 							} else {

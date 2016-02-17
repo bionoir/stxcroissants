@@ -50,7 +50,7 @@ class MailNotificationCommand extends ContainerAwareCommand
 						->setSubject('[Croissants]Rappel pour ce vendredi!')
 						->setFrom('noreply@croissants.stx.com')
 						->setTo($email)
-						->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:test_email.txt.twig', array('emailbody' => $text) ));
+						->setBody($this->getContainer()->get('templating')->render('STXCroissantsBundle:CroissantsAdmin:notificationRappel.txt.twig', array('emailbody' => $text) ));
 			
 			$transport = \Swift_MailTransport::newInstance();
 			$mailer = \Swift_Mailer::newInstance($transport);
