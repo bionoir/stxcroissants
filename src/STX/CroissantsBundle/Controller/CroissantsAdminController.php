@@ -166,7 +166,7 @@ class CroissantsAdminController extends Controller
 			
 			$userList =  $this->getDoctrine()
 								->getRepository('STXCroissantsBundle:Friday_Subscriptions')
-								->getUsersListWithAddress();
+								->getUsersListForEmail();
 			
 			$userArray = array();
 			
