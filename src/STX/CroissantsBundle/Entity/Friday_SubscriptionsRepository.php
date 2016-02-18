@@ -202,7 +202,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		$rsm->addScalarResult('cu_firstname', 'cu_firstname');
 		$rsm->addScalarResult('cu_lastname', 'cu_lastname');
 	
-		$sql = "select cu.username as cu_usr, cu.email as cu_email, cu.firstname as cu_firstname, cu.lastname as cu_lastname from croissants_user cu where cu.enabled = 1 and cu.username = 'FDA' and cu.roles = 'a:0:{}' order by cu.username";
+		$sql = "select cu.username as cu_usr, cu.email as cu_email, cu.firstname as cu_firstname, cu.lastname as cu_lastname from croissants_user cu where cu.enabled = 1 and cu.roles = 'a:0:{}' order by cu.username";
 	
 		$query = $this->_em->createNativeQuery($sql, $rsm);
 	

@@ -69,7 +69,8 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 						."<br/>"
 						."C'est la catastrophe, il n'y a toujours personne inscrite pour ce vendredi!"
 						."<br>"
-						."Qui est le valereux volontaire qui sauvera la ter...errrr... notre sacro-saint vendredi ?"
+						."<br>"
+						."Qui peut sauver la Ter...errrr... notre sacro-saint vendredi ?"
 						."<br/>";
 				
 				$message = \Swift_Message::newInstance()
