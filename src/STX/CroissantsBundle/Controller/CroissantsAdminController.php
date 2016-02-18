@@ -199,14 +199,6 @@ class CroissantsAdminController extends Controller
 			} catch (Exception $e)
 			{
 				$error_message = $e->getMessage();
-				/*ob_start();
-				var_dump($var);
-				$a=ob_get_contents();
-				ob_end_clean();
-				$error_message = $error_message . htmlspecialchars($a,ENT_QUOTES); // Escape every HTML special chars (especially > and < )
-				$error_message = $error_message . '</pre>';*/
-				
-				//var_dump($e->getMessage(), $e->getTraceAsString())
 				$this->get('session')->getFlashBag()->add('notice', $error_message);
 			}
 			
