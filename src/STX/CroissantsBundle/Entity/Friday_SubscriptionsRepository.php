@@ -58,7 +58,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		$sql = 'select fs.user_id, cu.id, cu.username, cu.email'
 				.'	from friday_subscriptions fs '
 				.'	left join croissants_user cu on cu.id = fs.user_id '
-				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 0 AND 6 '
 				.'	AND cu.alert_email = 1 ' 
 				.'  AND cu.enabled = 1 '
 				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
@@ -87,7 +87,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		$sql = 'select fs.backup_user_id, cu.id, cu.username, cu.email'
 				.'	from friday_subscriptions fs '
 				.'	left join croissants_user cu on cu.id = fs.backup_user_id '
-				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 0 AND 6 '
 				.'	AND cu.alert_email = 1 '
 				.' 	AND cu.enabled = 1 '
 				.'	AND (TIMESTAMPDIFF(DAY, NOW(), fs.date) + 1) = cu.alert_days '
@@ -133,7 +133,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 		
 		$sql = 'select COUNT(*) as subscribers'
 				.'	from friday_subscriptions fs '
-				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 0 AND 6 '
 				.'	AND fs.remark like \'FERIE -%\''
 		;
 
@@ -153,7 +153,7 @@ class Friday_SubscriptionsRepository extends EntityRepository
 	
 		$sql = 'select COUNT(*) as subscribers'
 				.'	from friday_subscriptions fs '
-				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 1 AND 6 '
+				.'	where TIMESTAMPDIFF(DAY, NOW(), fs.date) BETWEEN 0 AND 6 '
 				.'	AND ((fs.user_id IS NOT NULL) OR (fs.backup_user_id IS NOT NULL)) '
 				;
 

@@ -54,10 +54,14 @@ class MailNotificationNoSubscribersCommand extends ContainerAwareCommand
 					
 				$userArray = array();
 					
-				for ($i=0; $i < sizeof($userList); $i++) {
+				/*for ($i=0; $i < sizeof($userList); $i++) {
 					$username = $userList[$i]['cu_lastname'] . ' ' . $userList[$i]['cu_firstname'];
 					$userToAdd = array( $userList[$i]['cu_email'] => $username);
 					array_push($userArray, $userToAdd);
+				}*/
+				
+				for ($i=0; $i < sizeof($userList); $i++) {
+					$userArray[$userList[$i]['cu_email']] = $userList[$i]['cu_lastname'] . ' ' . $userList[$i]['cu_firstname'];
 				}
 				
 				
