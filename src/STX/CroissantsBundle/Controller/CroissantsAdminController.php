@@ -187,7 +187,7 @@ class CroissantsAdminController extends Controller
 				->setSubject($data['sujet'])
 				->setFrom('noreply@croissants.stx.com')
 				->setTo($userArray)
-				->setBody($this->renderView('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.html.twig', array('emailbody' => $data['message']) ),
+				->setBody($this->renderView('STXCroissantsBundle:CroissantsAdmin:notificationGeneral.html.twig', array('emailbody' => nl2br($data['message'])) ),
 						'text/html');
 			
 			$transport = \Swift_MailTransport::newInstance();
