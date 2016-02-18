@@ -35,4 +35,15 @@
 		<div class="col-md-3"><strong>Page d'accueil</strong></div>
 		<div class="col-md-4">{{ user.homepage }}</div>
 	</div>
+	<div>
+		<br>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a class="btn btn-primary" href="{{ path('fos_user_profile_edit') }}">Modifier profil</a>
+		</div>
+		<div class="col-md-3">
+		 	<a class="btn btn-primary" href="{{ path('fos_user_change_password') }}">Changer mot de passe</a></li>
+		 </div>
+	</div>
 </div>

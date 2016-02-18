@@ -56,22 +56,10 @@ class ProfileController extends Controller
         		$em = $this->getDoctrine()->getManager();
         		$em->persist($user);
         		$em->flush();
-        		
+        		$this->container->get('session')->getFlashBag()->add('success', 'Profil modifié correctement!');
         		return $this->redirect($this->generateUrl('fos_user_profile_show', array('user' => $user )));
         	}
         }
-        
-        /*
-        $form = $this->container->get('fos_user.profile.form');
-        $formHandler = $this->container->get('fos_user.profile.form.handler');
-
-        $process = $formHandler->process($user);
-        if ($process) {
-            $this->setFlash('fos_user_success', 'profile.flash.updated');
-
-            return new RedirectResponse($this->getRedirectionUrl($user));
-        }
-        */
 
         return $this->container->get('templating')->renderResponse(
             'STXUserBundle:Profile:edit.html.'.$this->container->getParameter('fos_user.template.engine'),
