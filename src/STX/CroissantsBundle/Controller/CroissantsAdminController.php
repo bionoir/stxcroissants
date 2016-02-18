@@ -170,11 +170,18 @@ class CroissantsAdminController extends Controller
 			
 			$userArray = array();
 			
+			/*
 			for ($i=0; $i < sizeof($userList); $i++) {
 				$username = $userList[$i]['cu_lastname'] . ' ' . $userList[$i]['cu_firstname'];
 				$userToAdd = array( $userList[$i]['cu_email'] => $username);
 				array_push($userArray, $userToAdd);
 			}
+			*/
+			
+			for ($i=0; $i < sizeof($userList); $i++) {
+				$userArray[$userList[$i]['cu_email']] = $userList[$i]['cu_lastname'] . ' ' . $userList[$i]['cu_firstname'];
+			}
+			
 								
 			$message = \Swift_Message::newInstance()
 				->setSubject($data['sujet'])
@@ -185,9 +192,25 @@ class CroissantsAdminController extends Controller
 			
 			$transport = \Swift_MailTransport::newInstance();
 			$mailer = \Swift_Mailer::newInstance($transport);
-			$mailer->send($message);
 			
-			$this->get('session')->getFlashBag()->add('success', 'Email envoyé!');
+			try {
+				$mailer->send($message);
+				$this->get('session')->getFlashBag()->add('success', 'Email envoyé!');
+			} catch (Exception $e)
+			{
+				$error_message = $e->getMessage();
+				/*ob_start();
+				var_dump($var);
+				$a=ob_get_contents();
+				ob_end_clean();
+				$error_message = $error_message . htmlspecialchars($a,ENT_QUOTES); // Escape every HTML special chars (especially > and < )
+				$error_message = $error_message . '</pre>';*/
+				
+				//var_dump($e->getMessage(), $e->getTraceAsString())
+				$this->get('session')->getFlashBag()->add('notice', $error_message);
+			}
+			
+			
 			return $this->render('STXCroissantsBundle:CroissantsAdmin:mail.html.twig', array('form' => $form->createView()));
 		}
 		
