@@ -55,9 +55,14 @@ class ProfileController extends Controller
         	if ($form->isValid()){
         		$em = $this->getDoctrine()->getManager();
         		$em->persist($user);
-        		$em->flush();
-        		$this->container->get('session')->getFlashBag()->add('success', 'Profil modifié correctement!');
-        		return $this->redirect($this->generateUrl('fos_user_profile_show', array('user' => $user )));
+        		
+        		try {
+        			$em->flush();
+        			$this->container->get('session')->getFlashBag()->add('success', 'Profil modifié correctement!');
+        			return $this->redirect($this->generateUrl('fos_user_profile_show', array('user' => $user )));
+        		} catch (Exception $e) {
+        			$this->container->get('session')->getFlashBag()->add('notice', 'Un problème est survenu');
+        		}
         	}
         }
 

@@ -39,6 +39,8 @@ class ProfileFormType extends AbstractType
         }
 
         $this->buildUserForm($builder, $options);
+        
+        $builder->add('email','email');
 
         $builder->add('current_password', 'password', array(
             'label' => 'form.current_password',

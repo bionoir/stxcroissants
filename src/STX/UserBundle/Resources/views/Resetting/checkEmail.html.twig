@@ -2,13 +2,16 @@
 
 {% extends "STXUserBundle::layout.html.twig" %}
 
-
-{% block croissantsMenu %}
-
-{% endblock %}
-
-{% block fos_user_content %}
-<p>
-{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
-</p>
+{% block stxcroissants_body %}
+	<div class="row">
+		<div class="col-lg-offset-3 col-lg-8">
+			<p>{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}</p>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-offset-5 col-lg-1">
+     		<a class="btn btn-primary btn-sm" href="{{ path('fos_user_security_login') }}">Retour page login</a></li>
+    	</div>
+    </div>
 {% endblock %}

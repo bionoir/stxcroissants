@@ -2,14 +2,11 @@
 
 {% extends "STXUserBundle::layout.html.twig" %}
 
-{% block croissantsMenu %}
-
+{% block stxcroissants_head %}
+	Inscription au site
 {% endblock %}
 
-{% block fos_user_content %}
-	<div>
-		<h1>My registration page</h1>
-	</div>
+{% block stxcroissants_body %}
     <form class="form-horizontal" action="{{ path('fos_user_registration_register') }}" method="post" {{ form_enctype(form) }} >
         <div class="form-group">
             <div class="col-lg-2 control-label">
@@ -61,4 +58,4 @@
             
         </div>
     </form>
-{% endblock fos_user_content %}
+{% endblock %}

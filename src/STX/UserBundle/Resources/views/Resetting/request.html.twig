@@ -2,10 +2,10 @@
 
 {% extends "STXUserBundle::layout.html.twig" %}
 
-{% block croissantsMenu %}
-
+{% block stxcroissants_head %}
+	Demande de nouveau mot de passe
 {% endblock %}
 
-{% block fos_user_content %}
+{% block stxcroissants_body %}
     {% include "STXUserBundle:Resetting:request_content.html.twig" %}
-{% endblock fos_user_content %}
+{% endblock %}
