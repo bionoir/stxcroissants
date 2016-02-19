@@ -183,4 +183,40 @@ class Friday_Subscriptions
 		$this->backup_user = NULL;
 		return $this;
 	}
+	
+	/**
+	 * 
+	 * @param Friday_Subscriptions $otherSub
+	 * @return \STX\CroissantsBundle\Entity\Friday_Subscriptions
+	 */
+	public function updateFromSubscription(Friday_Subscriptions $otherSub) {
+		
+		if (is_null($otherSub->getUser())) {
+			$this->removeUser();
+		} else {
+			$this->setUser($otherSub->getUser()) ;
+		}
+			
+		if (is_null($otherSub->getBackupUser())) {
+			$this->removeBackupUser();
+		} else {
+			$this->setBackupUser($otherSub->getBackupUser()) ;
+		}
+			
+		if (is_null($otherSub->getConfirmationUser())) {
+			$this->confirmation_user = NULL;
+		} else {
+			$this->setConfirmationUser($otherSub->getConfirmationUser()) ;
+		}
+			
+		if (is_null($otherSub->getRemark())) {
+			$this->remark = NULL;
+		} else {
+			$this->setRemark($otherSub->getRemark()) ;
+		}
+			
+		
+		return $this;	
+	}
+	
 }

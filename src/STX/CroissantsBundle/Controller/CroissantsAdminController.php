@@ -388,15 +388,35 @@ class CroissantsAdminController extends Controller
 	public function insertsubscriptionAction(Request $request)
 	{
 		$newSubscription = new Friday_Subscriptions();
+		$existingSubscription = new Friday_Subscriptions();
 		
 		$form = $this->createForm(new FridaySubscriptionType(), $newSubscription);
 		
 		$form->handleRequest($request);
 		
-		if ($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($newSubscription);
-			$em->flush();
+		try {
+			if ($form->isValid()) {
+				
+				$em = $this->getDoctrine()->getManager();
+				
+				/* Detecting if it's a new subscription or an update of a previous one */
+				
+				$repositoryFS = $em->getRepository('STXCroissantsBundle:Friday_Subscriptions');
+				$existingSubscription = $repositoryFS->findOneBy(array('date' => $newSubscription->getDate()));
+				
+				if (is_null($existingSubscription)) {
+					$em->persist($newSubscription);
+				} else {
+					$existingSubscription->updateFromSubscription($newSubscription);
+					$em->persist($existingSubscription);
+				}
+				
+				$em->flush();
+				
+				$this->get('session')->getFlashBag()->add('success', 'Changement d\'inscription effectué correctement !');
+			}
+		} catch (Exception $e) {
+			$this->get('session')->getFlashBag()->add('notice', 'Changement pas réussi !');
 		}
 		
 		return $this->render('STXCroissantsBundle:CroissantsAdmin:addfridaysubscription.html.twig', array('form' => $form->createView()));
