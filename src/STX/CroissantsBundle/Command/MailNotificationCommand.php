@@ -44,7 +44,7 @@ class MailNotificationCommand extends ContainerAwareCommand
 		
 			$text = "Salut,<br/>"
 					."<br/>"
-					."Tu es inscrit pour amener les croissants en <b>principal</b> pour ce vendredi!";
+					."Tu es le <b>principal</b> inscrit pour les croissants ce vendredi!";
 		
 			$message = \Swift_Message::newInstance()
 						->setSubject('[Croissants]Rappel pour ce vendredi!')

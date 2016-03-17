@@ -44,7 +44,7 @@ class MailNotificationBackupCommand extends ContainerAwareCommand
 		
 			$text = "Salut,<br/>"
 					."<br/>"
-					."Il n'y a pas d'ameneur principal et tu es inscrit pour amener les croissants en <b>backup</b> pour ce vendredi";
+					."Il n'y a pas d'ameneur principal et tu es inscrit comme <b>backup</b> pour amener les croissants ce vendredi";
 		
 			$message = \Swift_Message::newInstance()
 						->setSubject('[Croissants]Rappel pour ce vendredi!')
